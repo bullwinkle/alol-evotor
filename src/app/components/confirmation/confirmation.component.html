@@ -1,0 +1,150 @@
+<app-layout>
+
+  <div content-main>
+
+    <form id="confirmationFormGroup"
+          autocomplete="off"
+          #confirmationFormGroup="ngForm"
+          (submit)="$event.preventDefault();submitConfirmation(confirmationFormGroup.value);">
+
+      <div class="form-group-name" style="margin-bottom:10px;">Введите код подтверждения</div>
+      <div class="hint-text" style="margin-bottom:20px;">Запросите код из SMS у клиента (4 цифры).</div>
+
+      <div fxLayout="row" >
+
+        <!--<div fxFlex="nogrow">-->
+        <div style="max-width: 105px; font-size:14px;">
+
+          <md-input-container dividerColor="accent">
+            <input md-input
+                   type="tel"
+                   ngModel
+                   name="smsCode"
+                   class="md-accent"
+                   placeholder="Код из SMS"
+                   autocomplete="off"
+                   required
+                   minlength="4"
+                   [(ngModel)]="smsCode">
+          </md-input-container>
+
+        </div>
+
+        <div fxFlex fxLayout fxLayoutAlign="start center" class="l-pl-15">
+
+          <button *ngIf="!timeRemain"
+                  md-button
+                  type="button"
+                  (click)="sendSMSCode({phone:user.phone,cardId:user.discountCardId})"
+                  [disabled]="!canSubmitSmsCode"
+                  class="md-accent">Отправить повторно
+          </button>
+          <div *ngIf="timeRemain"
+               class="l-inline hint-text l-plr-20">Отправить повторно можно через {{ timeRemain | date:'mm:ss' }}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group-name">Дополнительно</div>
+
+      <div class="l-stack">
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+          <input type="tel"
+                 name="card"
+                 placeholder="Номер мульти-карты"
+                 md-input
+                 class="md-accent"
+                 [(ngModel)]="user.cardNumber"
+                 [textMask]="{mask: INPUT_MASKS?.card?.regExp}"
+                 (focus)="onInputFocus($event)"
+                 (input)="onInputInput($event)"
+                 (blur)="onInputBlur($event)"
+          >
+        </md-input-container>
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+          <input type="search"
+                 [(ngModel)]="user.lastName"
+                 md-input
+                 name="lastName"
+                 class="md-accent"
+                 placeholder="Фамилия">
+        </md-input-container>
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+          <input type="search"
+                 [(ngModel)]="user.name"
+                 md-input
+                 name="name"
+                 class="md-accent"
+                 placeholder="Имя">
+        </md-input-container>
+
+      <div>
+        <md-radio-group class="l-w-100p l-mb-15"
+                        name="sex"
+                        [(ngModel)]="user.sex">
+
+          <label class="label-custom l-mb-15">Пол</label>
+
+          <div fxLayout="row" class="l-mb-15">
+            <md-radio-button [value]="1" [checked]="user.sex === 1" class="l-w-50p">Мужской</md-radio-button>
+            <md-radio-button [value]="2" [checked]="user.sex === 2" class="l-w-50p">Женский</md-radio-button>
+          </div>
+
+        </md-radio-group>
+      </div>
+
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+          <input type="date"
+                 [(ngModel)]="user.dateOfBirth"
+                 md-input
+                 name="dateOfBirth"
+                 class="md-accent"
+                 placeholder="Дата рождения">
+        </md-input-container>
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+          <input type="search"
+                 [(ngModel)]="user.email"
+                 md-input
+                 name="email"
+                 class="md-accent"
+                 pattern="^.+@.+\..+$"
+                 placeholder="E-mail">
+        </md-input-container>
+
+        <md-input-container dividerColor="accent" class="l-w-100p">
+            <textarea [(ngModel)]="user.comment"
+                      md-input
+                      md-textarea-autosize
+                      name="comment"
+                      class="md-accent"
+                      placeholder="Комментарий"></textarea>
+        </md-input-container>
+
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div content-bottom>
+
+    <button md-button md-raised-button
+            [disabled]="!confirmationFormGroup.form.valid"
+            color="accent"
+            form="confirmationFormGroup"
+            type="submit"
+            class="l-w-100p">Сохранить
+    </button>
+
+  </div>
+
+</app-layout>

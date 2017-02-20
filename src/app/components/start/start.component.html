@@ -1,0 +1,66 @@
+<app-layout>
+
+  <div content-main>
+
+    <form id="form"
+          #formGroup="ngForm"
+          (submit)="$event.preventDefault();submitForm(formGroup.value);">
+      <div class="l-stack">
+
+        <div class="form-group-name">Сделайте скидку клиенту.</div>
+        <div class="hint-text">Введите мобильный телефон или номер карты.</div>
+
+        <div class="hint-text">
+          <div class="">Для нового клиента будет предложено подключение программы лояльности (применится сразу).</div>
+        </div>
+
+        <md-input-container dividerColor="accent">
+          <input type="tel"
+                 name="phone"
+                 md-input
+                 placeholder="Номер телефона"
+                 autofocus
+                 [(ngModel)]="user.phone"
+                 (ngModelChange)="isPhoneValid($event)? submitForm(formGroup.value):'';"
+                 [textMask]="{mask: INPUT_MASKS?.phone?.regExp}"
+                 (focus)="onInputFocus($event)"
+                 (input)="onInputInput($event)"
+                 (blur)="onInputBlur($event)"
+                 >
+        </md-input-container>
+
+        <div class="hint-text">или</div>
+
+        <md-input-container dividerColor="accent">
+          <input type="tel"
+                 name="card"
+                 placeholder="Номер карты"
+                 md-input
+                 [(ngModel)]="user.cardNumber"
+                 (ngModelChange)="isCardValid($event)? submitForm(formGroup.value):'';"
+                 [textMask]="{mask: INPUT_MASKS?.card?.regExp}"
+                 (focus)="onInputFocus($event)"
+                 (input)="onInputInput($event)"
+                 (blur)="onInputBlur($event)"
+                 >
+        </md-input-container>
+
+      </div>
+    </form>
+
+  </div>
+
+  <!-- BOTTOM ACTIONS HERE -->
+  <!--<div content-bottom>-->
+
+    <!--<button form="form"-->
+            <!--type="submit"-->
+            <!--md-button-->
+            <!--md-raised-button-->
+            <!--color="accent"-->
+            <!--class="l-w-100p">Далее-->
+    <!--</button>-->
+
+  <!--</div>-->
+
+</app-layout>

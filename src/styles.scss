@@ -1,0 +1,158 @@
+@import "assets/icon.css";
+
+@import "styles/variables";
+@import "~@angular/material/core/style/variables";
+
+@import 'styles/reset.scss';
+@import 'styles/theme';
+@import 'styles/helpers';
+
+html, body, app-root {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: auto;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+//body, app-root, #root {
+//  height: inherit;
+//  overflow: hidden;
+//}
+
+body {
+  font-family: $md-font-family;
+  font-size: $md-body-font-size-base;
+  line-height: 1.34;
+  padding: $md-toolbar-height-desktop 0;
+}
+
+app-root {
+  display: block;
+  padding: 1px;
+}
+
+.app-container {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
+
+.app-header,
+.app-footer {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.app-header {
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.3);
+  top: 0;
+
+  .header-left {}
+  .header-content {
+    font-size: 20px;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .header-right {}
+}
+
+.app-footer {
+  box-shadow: 0 -1px 1px 0 rgba(0,0,0,0.2);
+  bottom: 0;
+  padding: 20px;
+  background-color:white;
+  &:empty {
+    display: none;
+  }
+}
+
+.main-content {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+button {
+  &[md-button] {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 10px;
+    margin: 5px 0px;
+  }
+
+  &[disabled] {
+    opacity: 0.3;
+  }
+}
+
+label.label-custom {
+  display: block;
+  font-size: 100%;
+  pointer-events: none;
+  z-index: 1;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: rgba(0, 0, 0, 0.38);
+  margin-bottom: 8px;
+}
+
+.md-radio-label {
+  align-items: center !important;
+}
+.md-radio-container {
+  top: 0 !important;
+}
+
+.hint-text {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.26);
+  text-overflow: ellipsis;
+}
+
+.form-group-name {
+  font-size: 18px;
+  margin-top: 1.4em;
+  margin-bottom: 1.2em;
+}
+form > .form-group-name:first-child {
+  margin-top: 0;
+}
+
+.input-radio-block {
+  .md-radio-label {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .md-radio-label-content {
+    flex: 1;
+    &.md-radio-label-before {
+      text-align: left;
+    }
+    &.md-radio-label-after {
+      text-align: right;
+
+    }
+  }
+}
+
+//.cdk-overlay-pane {
+//  position: absolute !important;
+//}
+
+md-spinner,
+md-progress-spinner {
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}

@@ -1,0 +1,16 @@
+<div class="l-p-20">
+
+  <div *ngIf="APP_SETTINGS.debug">
+    <menu> fake menu:
+      <a routerLink="/">start</a>
+      <a routerLink="/select-layalty">select-layalty</a>
+      <a routerLink="/confirmation">confirmation</a>
+    </menu>
+    <pre>{{ user | json }}</pre>
+  </div>
+
+  <ng-content select="[content-main]"></ng-content>
+
+</div>
+
+<div class="app-footer"><ng-content select="[content-bottom]"></ng-content></div>

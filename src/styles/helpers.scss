@@ -1,0 +1,120 @@
+.s-scroll-y {
+  max-height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.l-inline {
+  display: inline-block;
+}
+
+.l-block {
+  display: block;
+}
+
+.l-stack {
+  & > :first-child {
+    margin-top: 0;
+  }
+  & > :not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+.l-w-100p {
+  width: 100%;
+}
+
+.l-h-100p {
+  height: 100%;
+}
+
+.l-p-20 {
+  padding: 20px;
+}
+
+.l-ptb-15 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.l-ptb-20 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.l-pl-15 {
+  padding-left: 15px;
+}
+.l-pr-15 {
+  padding-right: 15px;
+}
+.l-plr-15 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.l-pb-20 {
+  padding-bottom: 20px;
+}
+
+.l-mb-10 {
+  margin: 10px;
+}
+.l-mb-30 {
+  margin-bottom: 30px;
+}
+.l-mb-15 {
+  margin-bottom: 15px;
+}
+
+.l-mb-40 {
+  margin-bottom: 40px;
+}
+
+.l-plr-20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.l-centered-full {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%)
+}
+
+.l-block-centered {
+  display: block;
+  margin: 0 auto;
+}
+
+.f-upper {
+  text-transform: uppercase;
+}
+
+.s-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.l-nowrap {
+  white-space: nowrap;
+}
+
+.l-w-50p {
+  width: 50%;
+}
+
+@each $fSize in 10 12 18 20 {
+  .f-sz-#{$fSize} {
+    font-size: $fSize + px;
+  }
+}
+
+@each $colorName, $color in (
+  grey: #6e6e6e
+) {
+  .f-#{$colorName} {
+    color: $color;
+  }
+}

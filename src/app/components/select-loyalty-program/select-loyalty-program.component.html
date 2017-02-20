@@ -1,0 +1,72 @@
+<app-layout>
+
+  <div content-main>
+
+    <form #formGroup="ngForm"
+          id="selectLoyalty"
+          class="l-stack"
+          (submit)="$event.preventDefault();submitForm(formGroup.value);">
+
+      <div class="form-group-name">У клиента не подключена программа лояльности</div>
+
+      <div class="hint-text l-mb-15">
+        <div class="">Выберите программу лояльности для подключения.</div>
+        <div class="">Клиенту будет отправлено SMS с кодом подтверждения{{ isPhoneValid(user?.phone)? (' на номер '+user.phone): '' }}.</div>
+        <div class="">Код необходимо ввести на следующем шаге.</div>
+      </div>
+
+      <md-input-container *ngIf="!isPhoneValid(user?.phone)" dividerColor="accent">
+        <input type="tel"
+               name="phone"
+               placeholder="Номер телефона"
+               required
+               md-input
+               [(ngModel)]="user.phone"
+               [textMask]="{mask: INPUT_MASKS?.phone?.regExp}"
+               (focus)="onInputFocus($event)"
+               (input)="onInputInput($event)"
+               (blur)="onInputBlur($event)"
+        >
+      </md-input-container>
+
+      <md-radio-group class="l-stack"
+                      name="discountCardId"
+                      [required]="!!discountCards.length"
+                      [hidden]="isLoading"
+                      [(ngModel)]="user.discountCardId">
+
+        <md-radio-button *ngFor="let discountCard of discountCards"
+                         [value]="discountCard.id"
+                         labelPosition="before"
+                         align="end"
+                         class="input-radio-block l-w-100p">
+          <div class="l-w-100p">
+            <div class="f-sz-20">«{{discountCard.title}}», {{discountCard.percent}}%</div>
+            <!--<div class="f-sz-12 f-grey" style="white-space: normal;">{{discountCard.description}}</div>-->
+          </div>
+        </md-radio-button>
+
+      </md-radio-group>
+
+      <div [hidden]="!isLoading">
+        <md-spinner mode="indeterminate" class="l-block-centered"></md-spinner>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div content-bottom>
+
+    <button form="selectLoyalty"
+            type="submit"
+            md-button
+            md-raised-button
+            color="accent"
+            [disabled]="!formGroup?.form?.valid || !user?.discountCardId || !isPhoneValid(user?.phone)"
+            class="l-w-100p">Подключить
+    </button>
+
+  </div>
+
+</app-layout>

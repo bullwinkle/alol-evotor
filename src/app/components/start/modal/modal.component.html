@@ -1,0 +1,20 @@
+<h2 md-dialog-title>Подключить программу лояльности?</h2>
+
+<md-dialog-content class="l-mb-15">
+
+  <div>У клиента не подключена программа лояльности.</div>
+
+</md-dialog-content>
+
+<md-dialog-actions fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap>
+  <button md-button
+          (click)="dialogRef.close(true)"
+          color="accent"
+          class="l-mb-10" >Подключить
+  </button>
+  <button md-button
+          (click)="dialogRef.close(false)"
+          color="accent"
+          class="l-mb-10" >Пропустить
+  </button>
+</md-dialog-actions>
