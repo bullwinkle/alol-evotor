@@ -25,6 +25,29 @@ import {
 } from '../../../typings';
 import {AppSettings} from "../../app.settings";
 import {LoggerService} from "./logger.service";
+import {Observer} from "rxjs";
+
+const scannerEvents = (() => {
+  let defaultHandler = (e) => {
+    console.info('scannerEvents defaultHandler', e)
+  };
+  let globalHandler = window['handleScannerEvent'] || defaultHandler;
+
+  let observable = Observable.create((observer) => {
+    window['handleScannerEvent'] = (data: any) => {
+      console.warn('handling events from service');
+      observer.next(data);
+      globalHandler(data);
+    };
+  })
+    .map(el => {
+      console.log(el);
+      return el;
+    });
+
+  return observable;
+})();
+
 
 export class EvotorConnection implements Connection {
   public readyState: ReadyState;
@@ -60,7 +83,7 @@ export class EvotorConnection implements Connection {
 
       let evoResponseBody = ((): any => {
         try {
-          let res = this.http.send( JSON.stringify({
+          let res = this.http.send(JSON.stringify({
             method: methodString,
             path: request.url,
             body: request.getBody()
@@ -131,10 +154,10 @@ export class EvotorService {
   private navigation: IEvotorNavigation;
   private inventory: IEvotorInventory;
 
-  constructor(
-    public settings: AppSettings,
-    public logger: LoggerService
-  ) {
+  public scannerEvents: Observable<any> = scannerEvents;
+
+  constructor(public settings: AppSettings,
+              public logger: LoggerService) {
     this.http = window['http'] as IEvotorHttp;
     this.receipt = window['receipt'] as IEvotorReceipt;
     this.navigation = window['navigation'] as IEvotorNavigation;
@@ -142,6 +165,14 @@ export class EvotorService {
 
     // if (this.settings.debug)
     //   this.testAlert();
+    this.scannerEvents.subscribe(
+      e => {
+        console.info('scannerEvents', e)
+      },
+      err => {
+        console.info('scannerEvents', err)
+      }
+    )
   }
 
   close(data?: Object): void {
@@ -151,7 +182,7 @@ export class EvotorService {
     }
     catch (err) {
       console.warn(err);
-      this.logger.log(LoggerService.LogTypes.error,{'navigation.pushNext()':err})
+      this.logger.log(LoggerService.LogTypes.error, {'navigation.pushNext()': err})
     }
   }
 
@@ -192,7 +223,7 @@ export class EvotorService {
     }
   }
 
-  addExtraDataToReceipt (data:any) {
+  addExtraDataToReceipt(data: any) {
     if (!this.receipt || typeof this.receipt.addExtraReceiptData !== 'function')
       return false;
 
@@ -202,14 +233,10 @@ export class EvotorService {
       return true;
     } catch (err) {
       console.warn(err);
-      this.logger.log(LoggerService.LogTypes.error,{'receipt.addExtraReceiptData(...)':err})
+      this.logger.log(LoggerService.LogTypes.error, {'receipt.addExtraReceiptData(...)': err})
     }
 
     return false;
-  }
-
-  scannerEvent (data:any) {
-
   }
 
   testAlert() {
@@ -219,17 +246,17 @@ export class EvotorService {
       try {
 
         let interfacesInfo = JSON.stringify({
-          http: Object.keys(window['http']||{}),
-          receipt: Object.keys(window['receipt']||{}),
-          navigation: Object.keys(window['navigation']||{}),
-          inventory: Object.keys(window['inventory']||{}),
-          logger: Object.keys(window['logger']||{})
+          http: Object.keys(window['http'] || {}),
+          receipt: Object.keys(window['receipt'] || {}),
+          navigation: Object.keys(window['navigation'] || {}),
+          inventory: Object.keys(window['inventory'] || {}),
+          logger: Object.keys(window['logger'] || {})
         }, null, 2);
 
         alert('Evotor interfaces:' + interfacesInfo);
 
       } catch (err) {
-        this.logger.log( LoggerService.LogTypes.error,err )
+        this.logger.log(LoggerService.LogTypes.error, err)
       }
 
     }

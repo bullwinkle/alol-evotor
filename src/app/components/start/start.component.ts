@@ -46,6 +46,14 @@ export class StartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.evo.scannerEvents.subscribe(
+      data => {
+        console.warn('[WORKS!]',data)
+        if (typeof data === 'string') {
+          this.user.cardNumber = data;
+        }
+      }
+    );
   }
 
   onInputInput(e: Event) {
