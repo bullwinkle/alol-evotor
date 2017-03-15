@@ -19,7 +19,6 @@
                  name="phone"
                  md-input
                  placeholder="Номер телефона"
-                 autofocus
                  [(ngModel)]="user.phone"
                  (ngModelChange)="isPhoneValid($event)? submitForm(formGroup.value):'';"
                  [textMask]="{mask: INPUT_MASKS?.phone?.regExp}"

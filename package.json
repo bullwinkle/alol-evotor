@@ -10,7 +10,7 @@
     "start:prod:aot": "ng serve --prod --aot --output-hashing none",
     "build": "ng build",
     "build:aot": "ng build --aot",
-    "build:prod:aot": "ng build --prod --aot --output-hashing none && rm dist/alol/*.gz",
+    "build:prod:aot": "ng build --prod --aot --output-hashing none",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

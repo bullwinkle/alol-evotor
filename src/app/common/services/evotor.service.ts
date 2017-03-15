@@ -27,7 +27,7 @@ import {AppSettings} from "../../app.settings";
 import {LoggerService} from "./logger.service";
 import {Observer} from "rxjs";
 
-const scannerEvents = (() => {
+const scannerEvents = ((window) => {
   let defaultHandler = (e) => {
     console.info('scannerEvents defaultHandler', e)
   };
@@ -46,7 +46,7 @@ const scannerEvents = (() => {
     });
 
   return observable;
-})();
+})(window);
 
 
 export class EvotorConnection implements Connection {
