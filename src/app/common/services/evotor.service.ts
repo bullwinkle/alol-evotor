@@ -208,6 +208,10 @@ export class EvotorService {
     return false;
   }
 
+  scannerEvent (data:any) {
+
+  }
+
   testAlert() {
 
     if (confirm('run test?')) {
