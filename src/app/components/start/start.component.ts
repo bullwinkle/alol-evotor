@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ElementRef,
-  ViewContainerRef
+  ViewContainerRef,
+  NgZone
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
@@ -40,6 +41,7 @@ export class StartComponent implements OnInit {
               private evoResource: EvotorResource,
               private notificator: NotificationService,
               private dialog: MdDialog,
+              private _zone: NgZone,
               public user: UserService,
               public discountCards: DiscountCardsService,
               public INPUT_MASKS: INPUT_MASKS) {
@@ -48,10 +50,12 @@ export class StartComponent implements OnInit {
   ngOnInit() {
     this.evo.scannerEvents.subscribe(
       data => {
-        console.warn('[WORKS!]',data)
-        if (typeof data === 'string') {
-          this.user.cardNumber = data;
-        }
+        this._zone.run(() => {
+          console.warn('[WORKS!]',data)
+          if (typeof data === 'string') {
+            this.user.cardNumber = data;
+          }
+        })
       }
     );
   }

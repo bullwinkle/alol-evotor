@@ -27,25 +27,35 @@ import {AppSettings} from "../../app.settings";
 import {LoggerService} from "./logger.service";
 import {Observer} from "rxjs";
 
-const scannerEvents = ((window) => {
-  let defaultHandler = (e) => {
-    console.info('scannerEvents defaultHandler', e)
-  };
-  let globalHandler = window['handleScannerEvent'] || defaultHandler;
+const scannerEvents = ((window):Observable<any> => {
 
-  let observable = Observable.create((observer) => {
-    window['handleScannerEvent'] = (data: any) => {
-      console.warn('handling events from service');
-      observer.next(data);
-      globalHandler(data);
+  let fake = Observable.create((observer)=>{});
+
+  try {
+
+    let defaultHandler = (e) => {
+      console.info('scannerEvents defaultHandler', e)
     };
-  })
-    .map(el => {
-      console.log(el);
-      return el;
-    });
+    let globalHandler = window['handleScannerEvent'] || defaultHandler;
 
-  return observable;
+    let observable = Observable.create((observer) => {
+      window['handleScannerEvent'] = (data: any) => {
+        console.warn('handling events from service');
+        observer.next(data);
+        globalHandler(data);
+      };
+    })
+      .map(el => {
+        console.log(el);
+        return el;
+      });
+
+    return observable;
+
+  } catch (err) {
+    alert("scannerEvents error:"+err)
+    return fake
+  }
 })(window);
 
 
