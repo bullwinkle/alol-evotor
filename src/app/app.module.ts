@@ -89,7 +89,7 @@ import {HttpFactory} from './common/http.factory';
     AppSettings,
     LoggerService,
     { provide: Http, useFactory: HttpFactory,
-      deps: [XHRBackend, EvotorBackend, BaseRequestOptions],
+      deps: [XHRBackend, EvotorBackend, BaseRequestOptions, LoggerService],
     },
     { provide: APP_BASE_HREF, useValue: './' }
   ],

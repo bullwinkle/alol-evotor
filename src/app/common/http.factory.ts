@@ -4,11 +4,13 @@ const merge = _.merge;
 
 import {HttpService} from './services/_http.service';
 import {ApiService} from "./services/api.service";
+import {LoggerService} from "./services/logger.service";
 
 export function HttpFactory (
    xhrBackend: ConnectionBackend,
    evotorBackend: ConnectionBackend,
-   baseRequestOptions: BaseRequestOptions
+   baseRequestOptions: BaseRequestOptions,
+   logger: LoggerService
 ) {
 
   let backend = (() => {
@@ -30,6 +32,6 @@ export function HttpFactory (
       }
     );
 
-  return new HttpService(backend, baseRequestOptions);
+  return new HttpService(backend, baseRequestOptions, logger);
 
 }
