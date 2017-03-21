@@ -14,6 +14,8 @@ import 'rxjs/add/operator/do';
 import {ApiService} from "./api.service"
 import {LoggerService} from "./logger.service"
 
+let requestId = 0;
+
 @Injectable()
 export class HttpService extends Http implements Http {
 
@@ -38,6 +40,9 @@ export class HttpService extends Http implements Http {
   // }
 
   request(url: string|Request, options?: RequestOptionsArgs) : Observable<Response> {
+    requestId++;
+
+    window['Observable'] = Observable;
 
     if (url instanceof Request) {
       url.url = this.buildUrl(url.url);
@@ -61,16 +66,22 @@ export class HttpService extends Http implements Http {
       }
     })();
 
-    this.logger.log(`[REQUEST_STARTED] ${logData.method} ${logData.url}\nat ${new Date()}`,{request_params:logData.body});
+    let requestObservable = super.request(url,options);
 
-    let result = super.request(url,options);
+    this.logger.log(`[REQUEST #${requestId} STARTED] ${logData.method} ${logData.url}\nat ${new Date()}`,{
+      request_params:logData.body
+    });
 
-    result.subscribe(
-      (response) => {this.logger.log(`[REQUEST_FINISHED_SUCCESS]  ${logData.method} ${logData.url}\nat ${new Date()}`,{request_params:logData.body,response:response.json()});},
-      (error) => {this.logger.log(`[REQUEST_FINISHED_ERROR]  ${logData.method} ${logData.url}\nat ${new Date()}`,{request_params:logData.body,response:error});}
+    return requestObservable.do(
+      (response) => {
+        this.logger.log(`[REQUEST #${requestId} FINISHED_SUCCESS]  ${logData.method} ${logData.url}\nat ${new Date()}`,{
+          request_params:logData.body,response:response.json()});
+      },
+      (error) => {
+        this.logger.log(`[REQUEST #${requestId} FINISHED_ERROR]  ${logData.method} ${logData.url}\nat ${new Date()}`,{
+          request_params:logData.body,response:error});
+      }
     );
-
-    return result;
   }
 
 }
