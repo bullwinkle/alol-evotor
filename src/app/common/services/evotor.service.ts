@@ -240,6 +240,7 @@ export class EvotorService {
     try {
       let dataStr = JSON.stringify(data);
       this.receipt.addExtraReceiptData(dataStr);
+      this.logger.log(LoggerService.LogTypes.success, {'receipt.addExtraReceiptData(...)': dataStr});
       return true;
     } catch (err) {
       console.warn(err);

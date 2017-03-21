@@ -4,9 +4,10 @@ import {AppSettings} from "../../app.settings";
 
 const LogTypes = {
   error: 'Error',
+  success: 'Success',
   responseError: 'ResponseError',
   responseSuccess: 'ResponseSuccess'
-}
+};
 
 @Injectable()
 export class LoggerService {
