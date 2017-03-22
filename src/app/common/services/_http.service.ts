@@ -25,16 +25,17 @@ interface RequestLog {
 
 let requestId = 0;
 
+let loggedRequests = new class RequestLogger {
 
+  private items: Array<any> = [];
 
-let loggedRequests = new class RequestLogger extends Array {
   $push (data:RequestLog):RequestLog {
-    super.push(data);
+    this.items.push(data);
     return data;
   }
 
   toJSON(){
-    return this.map((el,i)=>{
+    return this.items.map((el,i)=>{
       let scenario = el.body.scenario || `[UNKNOWN #${i}]`;
       let start = el.start;
       let finish = el.finish;
@@ -71,8 +72,6 @@ export class HttpService extends Http implements Http {
 
   request(url: string|Request, options?: RequestOptionsArgs) : Observable<Response> {
     requestId++;
-
-    window['Observable'] = Observable;
 
     if (url instanceof Request) {
       url.url = this.buildUrl(url.url);
