@@ -54,6 +54,9 @@ export class StartComponent implements OnInit {
           console.warn('[WORKS!]',data)
           if (typeof data === 'string') {
             this.user.cardNumber = data;
+            if (this.isCardValid(this.user.cardNumber)) {
+              this.submitForm(this.user.cardNumber);
+            }
           }
         })
       }
@@ -84,6 +87,7 @@ export class StartComponent implements OnInit {
   }
 
   isCardValid(val) {
+    console.warn('isCardValid',val)
     try {
       return this.evoResource.clearInput(val).length >= 16
     } catch (err) {
