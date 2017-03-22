@@ -88,7 +88,7 @@ export class HttpService extends Http implements Http {
           body:url.json(),
           method:(RequestMethod[url.method] || '').toUpperCase(),
           start: new Date(),
-          finish: new Date()
+          finish: null
         }
       } else if (typeof url === 'string') {
         Object.assign(options.body,{_requestsLog:loggedRequests.toJSON()});
@@ -97,7 +97,7 @@ export class HttpService extends Http implements Http {
           body:options.body,
           method:(RequestMethod[options.method] || '').toUpperCase(),
           start: new Date(),
-          finish: new Date()
+          finish: null
         }
       }
     })();
