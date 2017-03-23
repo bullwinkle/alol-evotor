@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpService } from './http.service';
+import { HttpService } from './_http.service';
 
 describe('HttpService', () => {
   beforeEach(() => {

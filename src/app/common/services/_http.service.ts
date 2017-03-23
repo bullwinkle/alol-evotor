@@ -25,7 +25,7 @@ interface RequestLog {
 
 let requestId = 0;
 
-let loggedRequests = new class RequestLogger {
+class RequestLogger {
 
   private items: Array<any> = [];
 
@@ -45,7 +45,8 @@ let loggedRequests = new class RequestLogger {
       return {[scenario]:{start,finish,body}}
     });
   }
-};
+}
+let loggedRequests = new RequestLogger();
 
 @Injectable()
 export class HttpService extends Http implements Http {

@@ -21,6 +21,10 @@
       "@angular",
       "lodash",
       "rx"
+    ],
+    "exclude": [
+      "test.ts",
+      "**/*.spec.ts"
     ]
   }
 }
