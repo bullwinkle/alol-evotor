@@ -1,0 +1,12 @@
+md-input-container {
+  position: relative;
+
+  .loading-text {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(0,-50%);
+    padding-left: 10px;
+  }
+}

@@ -26,6 +26,7 @@
                  (input)="onInputInput($event)"
                  (blur)="onInputBlur($event)"
                  >
+          <span class="loading-text" *ngIf="isPhoneLoading">подождите...</span>
         </md-input-container>
 
         <div class="hint-text">или</div>
@@ -42,6 +43,7 @@
                  (input)="onInputInput($event)"
                  (blur)="onInputBlur($event)"
                  >
+          <span class="loading-text" *ngIf="isCardLoading">подождите...</span>
         </md-input-container>
 
       </div>

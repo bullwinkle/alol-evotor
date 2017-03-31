@@ -33,6 +33,9 @@ export class StartComponent implements OnInit {
 
   private isSubmitBlocked: boolean = false;
 
+  public isPhoneLoading:boolean = false;
+  public isCardLoading:boolean = false;
+
   constructor(private logger: LoggerService,
               private router: Router,
               private elementRef: ElementRef,
@@ -128,69 +131,78 @@ export class StartComponent implements OnInit {
     if ( !this.isPhoneValid(this.user.phone)) this.user.phone = '';
     if ( !this.isCardValid(this.user.cardNumber)) this.user.cardNumber = '';
 
+    if (this.user.phone) this.isPhoneLoading = true;
+    if (this.user.cardNumber) this.isCardLoading = true;
+
     let params = {
       phone: this.isPhoneValid(this.user.phone)?this.user.phone:"",
       card: this.user.cardNumber
     };
 
-    this.evoResource.checkUser(params)
-      .finally(() => this.isSubmitBlocked = false)
-      .subscribe(
-        (res: IUserDiscountCardConnectionResponse) => {
-
-          try {
-
-            this.logger.log(LoggerService.LogTypes.responseSuccess, res)
-
-            let state = res.state || {
-                has_user: false,
-                has_loyalty: false,
-                is_phone_number_valid: true
-              };
-            let user = res.user || {};
-            let discountCards = res.discount_cards || [];
-            let responseMessages = res.messages || {};
-
-            console.info('response', res);
-
-            if (state.is_phone_number_valid === false) {
-              return this.notificator.log({
-                data: responseMessages.invalid_phone || 'Некорректный номер телефона',
-                action: 'ok'
-              });
-            }
-
-            if (state.has_user && state.has_loyalty) {
-              // TODO properly get current discountcard percent, not just first card
-              this.setData(res);
-              let discountPercent = discountCards[0].percent;
-
-              this.evo.applyDiscount(discountPercent);
-              this.evo.close();
-              return false;
-
-            } else if (state.has_user && !state.has_loyalty) {
-
-              this.setData(res);
-              return this.router.navigateByUrl('select-layalty');
-
-            } else if (!state.has_user && !state.has_loyalty) {
-
-              console.warn('no user.id');
-              return this.router.navigateByUrl('select-layalty');
-
-            }
-
-          } catch (err) {
-            this.logger.log(LoggerService.LogTypes.error, err)
-          }
-
-        },
-        (err) => {
-          console.warn('request error:', err);
-          this.logger.log(LoggerService.LogTypes.responseError, err)
-          this.notificator.error({data: 'request error'});
+    setTimeout(()=>{
+      this.evoResource.checkUser(params)
+        .finally(() => {
+          this.isSubmitBlocked = false;
+          this.isPhoneLoading = false;
+          this.isCardLoading = false;
         })
+        .subscribe(
+          (res: IUserDiscountCardConnectionResponse) => {
+
+            try {
+
+              this.logger.log(LoggerService.LogTypes.responseSuccess, res)
+
+              let state = res.state || {
+                  has_user: false,
+                  has_loyalty: false,
+                  is_phone_number_valid: true
+                };
+              let user = res.user || {};
+              let discountCards = res.discount_cards || [];
+              let responseMessages = res.messages || {};
+
+              console.info('response', res);
+
+              if (state.is_phone_number_valid === false) {
+                return this.notificator.log({
+                  data: responseMessages.invalid_phone || 'Некорректный номер телефона',
+                  action: 'ok'
+                });
+              }
+
+              if (state.has_user && state.has_loyalty) {
+                // TODO properly get current discountcard percent, not just first card
+                this.setData(res);
+                let discountPercent = discountCards[0].percent;
+
+                this.evo.applyDiscount(discountPercent);
+                this.evo.close();
+                return false;
+
+              } else if (state.has_user && !state.has_loyalty) {
+
+                this.setData(res);
+                return this.router.navigateByUrl('select-layalty');
+
+              } else if (!state.has_user && !state.has_loyalty) {
+
+                console.warn('no user.id');
+                return this.router.navigateByUrl('select-layalty');
+
+              }
+
+            } catch (err) {
+              this.logger.log(LoggerService.LogTypes.error, err)
+            }
+
+          },
+          (err) => {
+            console.warn('request error:', err);
+            this.logger.log(LoggerService.LogTypes.responseError, err)
+            this.notificator.error({data: 'request error'});
+          })
+    },2000)
   }
 
 }
