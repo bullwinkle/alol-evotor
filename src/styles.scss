@@ -80,6 +80,8 @@ app-root {
 }
 
 button {
+  transition: opacity .2s ease-in-out;
+
   &[md-button] {
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -87,8 +89,14 @@ button {
     margin: 5px 0px;
   }
 
+  &:not([disabled]) {
+    opacity: 1;
+    pointer-events:initial;
+  }
+
   &[disabled] {
-    opacity: 0.3;
+    opacity: 0;
+    pointer-events:none;
   }
 }
 
