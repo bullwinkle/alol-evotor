@@ -202,7 +202,7 @@ export class StartComponent implements OnInit {
             this.logger.log(LoggerService.LogTypes.responseError, err)
             this.notificator.error({data: 'request error'});
           })
-    },2000)
+    },10)
   }
 
 }

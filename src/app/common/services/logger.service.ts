@@ -22,7 +22,7 @@ export class LoggerService {
     try {
       data = this.normalizeData(data);
 
-      window['logger'].log(data)
+      window['logger'].log('ru.evotor.market.booster_test ' + data)
     } catch (err) {}
 
     if (this.settings.debug) {
