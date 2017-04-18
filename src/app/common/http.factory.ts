@@ -6,6 +6,8 @@ import {HttpService} from './services/_http.service';
 import {ApiService} from "./services/api.service";
 import {LoggerService} from "./services/logger.service";
 
+declare var http:any;
+
 export function HttpFactory (
    xhrBackend: ConnectionBackend,
    evotorBackend: ConnectionBackend,
@@ -14,7 +16,7 @@ export function HttpFactory (
 ) {
 
   let backend = (() => {
-    if (typeof window['http'] !== 'undefined') {
+    if (typeof http !== 'undefined') {
       return evotorBackend
     } else {
       return xhrBackend
@@ -27,7 +29,8 @@ export function HttpFactory (
       options,
       {
         headers: new Headers({
-          Authorization: ApiService.settings.authorizationHeader
+          Authorization: ApiService.settings.authorizationHeader,
+          'Content-Type' : 'application/json; charset=UTF-8'
         })
       }
     );

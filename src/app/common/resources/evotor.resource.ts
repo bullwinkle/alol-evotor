@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 
+import * as _ from "lodash";
+
 import {
   IUser,
   ICompanyDiscrountCard,
@@ -10,7 +12,7 @@ import {
   ISmsRequest,
   ISmsResponse,
   IConfirmConnectionParams,
-  IConfirmConnectionResponse
+  IConfirmConnectionResponse,
 } from "../../../typings"
 
 const SCENARIES = {
@@ -20,6 +22,13 @@ const SCENARIES = {
   DISCOUNTCARD_CONNECT: 'discountcard_connect'
 };
 
+const userEncadableFields = [
+  'email',
+  'first_name',
+  'last_name',
+  'nickname',
+  'fts_nickname',
+];
 
 @Injectable()
 export class EvotorResource {
@@ -33,7 +42,8 @@ export class EvotorResource {
   checkUser({phone, card}): Observable<IUserDiscountCardConnectionResponse> {
     console.warn(this.http)
 
-    if (!phone && !card) return Observable.throw('empty params');
+    if (!phone && !card)
+      return Observable.throw('empty params')
 
     let rawPhone = this.clearInput(phone);
     let rawCard = this.clearInput(card);
@@ -43,12 +53,13 @@ export class EvotorResource {
       phone: rawPhone,
       mastercard_number: rawCard
     })
-      .map(res => {
-        console.info('raw res',res)
-        return res.json()
-      })
+      .map( response => {
+        let res:IUserDiscountCardConnectionResponse = response.json();
+        res.user = convert(res.user,userEncadableFields,encodeURIComponent) as IUser;
+        return res;
+      } )
       .catch((err) => {
-        throw err.json()
+        throw err
       })
   }
 
@@ -60,7 +71,7 @@ export class EvotorResource {
     })
       .map(res => res.json())
       .catch((err) => {
-        throw err.json()
+        throw err
       })
   }
 
@@ -74,7 +85,8 @@ export class EvotorResource {
     lastName,
     dateOfBirth,
     sex,
-    cardNumber
+    cardNumber,
+    comment
   }:IConfirmConnectionParams): Observable<IConfirmConnectionResponse> {
 
     userId || (userId = 0);
@@ -84,22 +96,31 @@ export class EvotorResource {
     if (cardNumber) cardNumber = this.clearInput(cardNumber);
     if (dateOfBirth) dateOfBirth = this.normalizeDate(dateOfBirth);
 
-    return this.http.post('/evotor?route=/api/v1/customer/register', {
-      scenario: SCENARIES.DISCOUNTCARD_CONNECT,
-      phone,
-      sex: sex,
-      email,
-      discountcard_id: cardId,
-      confirmation_code: confirmationCode,
-      user_id: userId,
-      first_name: name,
-      last_name: lastName,
-      birthday: dateOfBirth,
-      mastercard_number: cardNumber,
-    })
-      .map(res => res.json())
+    return this.http.post('/evotor?route=/api/v1/customer/register', convert(
+        {
+          scenario: SCENARIES.DISCOUNTCARD_CONNECT,
+          phone,
+          sex: sex,
+          discountcard_id: cardId,
+          confirmation_code: confirmationCode,
+          user_id: userId,
+          birthday: dateOfBirth,
+          mastercard_number: cardNumber,
+          email: email,
+          first_name: name,
+          last_name: lastName,
+          comment: comment
+        },
+        ["email", "first_name", "last_name", "comment"],
+        encodeURIComponent)
+    ).map(response => {
+        let res = response.json();
+        res.user = convert(res.user,['email','first_name','last_name'],decodeURIComponent);
+        res.customer = convert(res.customer,['email','first_name','last_name'],decodeURIComponent);
+        return res
+      })
       .catch((err) => {
-        throw err.json()
+        throw err
       })
   }
 
@@ -123,7 +144,7 @@ export class EvotorResource {
     return this.http.post('/evotor?route=/api/v1/customer/register', params)
       .map(res => res.json())
       .catch(err => {
-        throw err.json()
+        throw err
       })
   }
 
@@ -146,4 +167,22 @@ export class EvotorResource {
       else return null;
   }
 
+}
+
+
+
+
+function convert (
+    obj:any={},
+    keys:string[]=[],
+    converter = (el)=>{return el}
+  ):Object {
+  return _.chain({})
+    .merge(obj)
+    .merge(
+      _.mapValues(
+        _.pick(obj,keys),converter
+      )
+    )
+    .value()
 }

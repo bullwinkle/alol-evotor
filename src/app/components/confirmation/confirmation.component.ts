@@ -30,10 +30,8 @@ export class ConfirmationComponent implements OnInit {
   private isSMSCodeSubmitting: boolean = false;
   private isSubmitBlocked: boolean = false;
 
-  constructor(private chRef: ChangeDetectorRef,
-              private logger: LoggerService,
+  constructor(public logger: LoggerService,
               public INPUT_MASKS: INPUT_MASKS,
-              private router: Router,
               private evo: EvotorService,
               private evoResource: EvotorResource,
               private notificator: NotificationService,
@@ -63,7 +61,8 @@ export class ConfirmationComponent implements OnInit {
       lastName: this.user.lastName,
       sex: this.user.sex,
       dateOfBirth: this.user.dateOfBirth,
-      cardNumber: this.user.cardNumber
+      cardNumber: this.user.cardNumber,
+      comment: this.user.comment
     } as IConfirmConnectionParams;
 
     this.isSubmitBlocked = true;
@@ -74,24 +73,24 @@ export class ConfirmationComponent implements OnInit {
           try {
 
             this.logger.log(LoggerService.LogTypes.responseSuccess, res);
+            this.notificator.log({data: 'Подтверждение отправлено'});
+
+            if (!this.parseConfirmationResponse(res)) return false;
 
             let discountPercent = get(res,'discount_cards[0].percent',0);
-            this.notificator.error({data: 'Подтверждение отправлено'});
+            let userId = get(res,'user.id',null);
+            let userPhone = get(res,'customer.phone',null);
+            let cardNumber = get(res,'mastercard.card_number',null);
 
-            if (this.parseConfirmationResponse(res)) {
-              this.evo.applyDiscount(discountPercent);
-              this.evo.addExtraDataToReceipt({
-                user_id: this.user.id,
-                user_phone: this.user.phone,
-                card_number: this.user.cardNumber
-              });
+            this.evo.applyDiscount(discountPercent);
 
-              return this.evo.close();
+            this.evo.addExtraDataToReceipt({
+              user_id: userId,
+              user_phone: userPhone,
+              card_number: cardNumber
+            });
 
-            } else {
-              return false;
-
-            }
+            this.evo.close();
 
           } catch (err) {
             this.logger.log(LoggerService.LogTypes.error, err)
@@ -156,7 +155,7 @@ export class ConfirmationComponent implements OnInit {
 
             if (res.state.is_code_sent) {
               console.info('SMS send success', res);
-              this.notificator.error({data: 'SMS отправлено'})
+              this.notificator.log({data: 'SMS отправлено'})
 
             } else {
               this.timeRemain = 0;
@@ -172,7 +171,7 @@ export class ConfirmationComponent implements OnInit {
 
           this.logger.log(LoggerService.LogTypes.responseError, err);
 
-          this.notificator.error({data: 'request error'})
+          this.notificator.error({data: 'Ошибка запроса'})
         }
       )
   }

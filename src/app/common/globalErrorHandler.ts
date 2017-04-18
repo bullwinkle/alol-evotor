@@ -6,7 +6,7 @@ export function globalErrorHandler (msg, url, line, col, error) {
 
   // You can view the information in an alert to see things working like this:
   var errMsg = "Error: " + msg + "\nurl: " + url + "\nline: " + line + extra;
-  window['http']? alert(errMsg) : console.error('GLOBAL ERROR:',errMsg);
+  console.error('GLOBAL ERROR:',errMsg);
 
   // TODO: Report this error via ajax so you can keep track
   //       of what pages have JS issues

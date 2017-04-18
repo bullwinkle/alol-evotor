@@ -5,6 +5,8 @@ import * as _ from "lodash";
 const merge = _.merge;
 import { AppSettings, IAppSettings } from '../../app.settings';
 
+declare var http:any;
+
 @Injectable()
 export class ApiService {
 
@@ -14,10 +16,10 @@ export class ApiService {
 
     let urlParts = [];
 
-    if (window['http']) { // TODO SUPER DIRTY HACK, MAKE BETTER LATER
+    if (typeof http !== 'undefined') { // TODO SUPER DIRTY HACK, MAKE BETTER LATER
       urlParts.push(
         relativeUrl
-      )
+      );
       urlParts[0] = urlParts[0].replace(/^\//,'');
     } else {
       urlParts.push(

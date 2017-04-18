@@ -58,6 +58,10 @@ const scannerEvents = ((window):Observable<any> => {
   }
 })(window);
 
+declare const http:any;
+declare const receipt:any;
+declare const navigation:any;
+declare const inventory:any;
 
 export class EvotorConnection implements Connection {
   public readyState: ReadyState;
@@ -67,7 +71,7 @@ export class EvotorConnection implements Connection {
   public logger: IEvotorLoger;
 
   constructor(request: Request) {
-    this.http = window['http'] as IEvotorHttp;
+    this.http = http;
     this.request = request;
     this.readyState = ReadyState.Open;
     this.response = new Observable((responseObserver) => {
@@ -168,10 +172,15 @@ export class EvotorService {
 
   constructor(public settings: AppSettings,
               public logger: LoggerService) {
-    this.http = window['http'] as IEvotorHttp;
-    this.receipt = window['receipt'] as IEvotorReceipt;
-    this.navigation = window['navigation'] as IEvotorNavigation;
-    this.inventory = window['inventory'] as IEvotorInventory;
+
+    try {
+      this.http = http;
+      this.receipt = receipt;
+      this.navigation = navigation;
+      this.inventory = inventory;
+    } catch (e) {
+
+    }
 
     // if (this.settings.debug)
     //   this.testAlert();
@@ -188,7 +197,7 @@ export class EvotorService {
   close(data?: Object): void {
     console.info(this.constructor.name, 'close', data)
     try {
-      window['navigation'].pushNext();
+      this.navigation.pushNext();
     }
     catch (err) {
       console.warn(err);
@@ -217,33 +226,35 @@ export class EvotorService {
 
   getProductFromDBById(productId: string): IEvotorProduct | void {
     try {
-      return JSON.parse(
+      let result = JSON.parse(
         this.inventory.getProduct(productId)
       );
 
+      this.logger.log(LoggerService.LogTypes.success, {'inventory.getProduct(...)': result});
+      return result;
+
     } catch (err) {
-      alert('get product error' + err);
+      this.logger.log(LoggerService.LogTypes.error, {'inventory.getProduct(...)': err});
 
     }
   }
 
   applyDiscount(discountPercent: number) {
-    if (this.receipt && typeof this.receipt.applyReceiptDiscountPercent === 'function') {
+    try {
       this.receipt.applyReceiptDiscountPercent(discountPercent);
+      this.logger.log(LoggerService.LogTypes.success, {'receipt.applyReceiptDiscountPercent(...)': discountPercent});
+    } catch (e) {
+      this.logger.log(LoggerService.LogTypes.error, {'receipt.applyReceiptDiscountPercent(...)': e});
     }
   }
 
   addExtraDataToReceipt(data: any) {
-    if (!this.receipt || typeof this.receipt.addExtraReceiptData !== 'function')
-      return false;
-
     try {
       let dataStr = JSON.stringify(data);
       this.receipt.addExtraReceiptData(dataStr);
       this.logger.log(LoggerService.LogTypes.success, {'receipt.addExtraReceiptData(...)': dataStr});
       return true;
     } catch (err) {
-      console.warn(err);
       this.logger.log(LoggerService.LogTypes.error, {'receipt.addExtraReceiptData(...)': err})
     }
 

@@ -109,14 +109,19 @@
                  placeholder="Дата рождения">
         </md-input-container>
 
-        <md-input-container dividerColor="accent" class="l-w-100p">
+        <md-input-container [dividerColor]="email.valid? 'accent' : 'warn'" class="l-w-100p">
           <input type="search"
                  [(ngModel)]="user.email"
                  md-input
                  name="email"
-                 class="md-accent"
+                 #email="ngModel"
                  pattern="^.+@.+\..+$"
                  placeholder="E-mail">
+
+              <md-hint>
+                <span [hidden]="!email.errors?.pattern" style="color:#f44336;">Невалидный email</span>
+              </md-hint>
+
         </md-input-container>
 
         <md-input-container dividerColor="accent" class="l-w-100p">

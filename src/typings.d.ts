@@ -105,29 +105,45 @@ export interface IConfirmConnectionParams {
   lastName: string,
   sex: number,
   dateOfBirth: string | number,
-  cardNumber: string
+  cardNumber: string,
+  comment: string
 }
 
 
 
 export interface IConfirmConnectionResponse {
-  "user":{
-    "id": number,
-    "phone":string,
-    "email":string,
-    "first_name": string,
-    "last_name":"x",
-    "sex":0,
-    "birthday":null
+  user:{
+    id: number,
+    phone:string,
+    email:string,
+    first_name: string,
+    last_name:string,
+    sex:0,
+    birthday:null
   },
-  "phone": string,
-  "discount_cards": ICompanyDiscrountCard[],
-  "state":{
-    "has_user":false,"is_confirmed":true,"is_loyalty_activate":true
-  },
-  "messages":{
-    "find_user":"Пользователь не найден"
+  customer:{
+    id:number,
+    user_id:number,
+    company_id:number,
+    phone:string,
+    email:string,
+    first_name:string,
+    last_name:string,
+    sex:number,
+    birthday:string,
+    comment:string,
   }
+  phone: string,
+  discount_cards: ICompanyDiscrountCard[],
+  state:{
+    has_user:false,
+    is_confirmed:true,
+    is_loyalty_activate:true
+  },
+  messages:{
+    find_user:string
+  }
+
 }
 
 

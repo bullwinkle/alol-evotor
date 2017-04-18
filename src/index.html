@@ -21,8 +21,8 @@
 <script>
   function handleScannerEvent (event) {
     window.console.info('handleScannerEvent', event);
-    if (window['logger'] && window['logger'].log) {
-      window['logger'].log({scannerData: event})
+    if ((typeof logger !== 'undefined') && logger.log) {
+      logger.log({scannerData: event})
     }
   }
 </script>

@@ -9,6 +9,8 @@ const LogTypes = {
   responseSuccess: 'ResponseSuccess'
 };
 
+declare var logger:any;
+
 @Injectable()
 export class LoggerService {
 
@@ -17,13 +19,13 @@ export class LoggerService {
   constructor(public settings: AppSettings) {}
 
   log(name: string,data:any) {
-    console.info(name,data)
-
     try {
       data = this.normalizeData(data);
-
-      window['logger'].log('ru.evotor.market.booster_test ' + data)
-    } catch (err) {}
+      console.info(name,data)
+      // logger.log('ru.evotor.market.booster_test ' + data)
+    } catch (err) {
+      console.error('Logger error',err)
+    }
 
     if (this.settings.debug) {
       alert(name+''+data)
@@ -32,7 +34,7 @@ export class LoggerService {
   }
 
   normalizeData(data:any):Object {
-    if (typeof data === 'object') {
+    if (typeof data !== 'string') {
       data =  JSON.stringify(data,null,2)
     }
     return data;

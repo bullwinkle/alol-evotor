@@ -89,14 +89,8 @@ button {
     margin: 5px 0px;
   }
 
-  &:not([disabled]) {
-    opacity: 1;
-    pointer-events:initial;
-  }
-
   &[disabled] {
-    opacity: 0;
-    pointer-events:none;
+    opacity: 0.5;
   }
 }
 
