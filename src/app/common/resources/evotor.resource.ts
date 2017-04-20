@@ -22,7 +22,7 @@ const SCENARIES = {
   DISCOUNTCARD_CONNECT: 'discountcard_connect'
 };
 
-const userEncadableFields = [
+const userFieldsToEncode = [
   'email',
   'first_name',
   'last_name',
@@ -55,7 +55,11 @@ export class EvotorResource {
     })
       .map( response => {
         let res:IUserDiscountCardConnectionResponse = response.json();
-        res.user = convert(res.user,userEncadableFields,encodeURIComponent) as IUser;
+        res.user = convert(
+          convert(res.user,userFieldsToEncode,encodeURIComponent),
+          userFieldsToEncode,
+          decodeURIComponent
+        ) as IUser;
         return res;
       } )
       .catch((err) => {
@@ -115,8 +119,18 @@ export class EvotorResource {
         encodeURIComponent)
     ).map(response => {
         let res = response.json();
-        res.user = convert(res.user,['email','first_name','last_name'],decodeURIComponent);
-        res.customer = convert(res.customer,['email','first_name','last_name'],decodeURIComponent);
+        let fieldsToEncode = ['email','first_name','last_name'];
+
+        res.user = convert(
+          convert( res.user,fieldsToEncode,encodeURIComponent),
+          fieldsToEncode,
+          decodeURIComponent
+        );
+        res.customer = convert(
+          convert( res.customer,fieldsToEncode,encodeURIComponent),
+          fieldsToEncode,
+          decodeURIComponent
+        );
         return res
       })
       .catch((err) => {
