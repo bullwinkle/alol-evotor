@@ -81,13 +81,15 @@ export class ConfirmationComponent implements OnInit {
             let userId = get(res,'user.id',null);
             let userPhone = get(res,'customer.phone',null);
             let cardNumber = get(res,'mastercard.card_number',null);
+            let cardId = params.cardId;
 
             this.evo.applyDiscount(discountPercent);
 
             this.evo.addExtraDataToReceipt({
               user_id: userId,
               user_phone: userPhone,
-              card_number: cardNumber
+              card_number: cardNumber,
+              discountcard_id: cardId
             });
 
             this.evo.close();

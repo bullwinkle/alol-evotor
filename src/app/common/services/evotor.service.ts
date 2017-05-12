@@ -170,9 +170,11 @@ export class EvotorService {
 
   public scannerEvents: Observable<any> = scannerEvents;
 
+  private _extraData = null;
+
   constructor(public settings: AppSettings,
               public logger: LoggerService) {
-
+    window['evo'] = this;
     try {
       this.http = http;
       this.receipt = receipt;
@@ -196,13 +198,25 @@ export class EvotorService {
 
   close(data?: Object): void {
     console.info(this.constructor.name, 'close', data)
+
     try {
-      this.navigation.pushNext();
+      Array.from(document.querySelectorAll('input,textarea'))
+        .forEach((el:HTMLElement)=>{
+          el.blur();
+        })
+    } catch (e) {
+      console.warn('blur error')
     }
-    catch (err) {
-      console.warn(err);
-      this.logger.log(LoggerService.LogTypes.error, {'navigation.pushNext()': err})
-    }
+
+    setTimeout(()=>{
+      try {
+        this.navigation.pushNext();
+      }
+      catch (err) {
+        console.warn(err);
+        this.logger.log(LoggerService.LogTypes.error, {'navigation.pushNext()': err})
+      }
+    },50)
   }
 
   // request(request: IEvotorRequest): any {
@@ -249,6 +263,8 @@ export class EvotorService {
   }
 
   addExtraDataToReceipt(data: any) {
+    this._extraData = data;
+
     try {
       let dataStr = JSON.stringify(data);
       this.receipt.addExtraReceiptData(dataStr);
