@@ -22,6 +22,7 @@ import {NotificationService} from '../../common/services/notification.service';
 import {UserService} from '../../services/user.service';
 import {DiscountCardsService} from '../../services/discount-cards.service';
 import {INPUT_MASKS} from "../../common/constants/inputMasks";
+const _get = require('lodash/get');
 
 
 @Component({
@@ -174,10 +175,24 @@ export class StartComponent implements OnInit {
               if (state.has_user && state.has_loyalty) {
                 // TODO properly get current discountcard percent, not just first card
                 this.setData(res);
-                let discountPercent = discountCards[0].percent;
 
-                this.evo.applyDiscount(discountPercent);
+                let discountCardPercent = _get(res,'discount_cards[0].percent',0);
+                let discountCardId = _get(res,'discount_cards[0].discountcard_id',0);
+                let userId = _get(res,'user.id',null);
+                let userPhone = _get(res,'user.phone',null);
+                let cardNumber = _get(res,'mastercard.card_number',null);
+
+                discountCardPercent && this.evo.applyDiscount(discountCardPercent);
+
+                this.evo.addExtraDataToReceipt({
+                  user_id: userId,
+                  user_phone: userPhone,
+                  card_number: cardNumber,
+                  discountcard_id: discountCardId
+                });
+
                 this.evo.close();
+
                 return false;
 
               } else if (state.has_user && !state.has_loyalty) {

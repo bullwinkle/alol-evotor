@@ -27,19 +27,8 @@ export class AppComponent implements OnInit {
               private _route: ActivatedRoute,
               private evo: EvotorService,
               public user: UserService,) {
-    this.title = 'Программа лояльности';
 
-    try {
-      this.evo.addExtraDataToReceipt({
-        user_id: 0,
-        user_phone: '',
-        card_number: '',
-        discountcard_id: 0
-      });
-      this.evo.addExtraDataToReceipt({});
-    } catch (e) {
-      console.warn("[AppComponent] error",e)
-    }
+    this.title = 'Программа лояльности';
 
   }
 

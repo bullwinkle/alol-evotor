@@ -58,10 +58,11 @@ const scannerEvents = ((window):Observable<any> => {
   }
 })(window);
 
-declare const http:any;
 declare const receipt:any;
 declare const navigation:any;
 declare const inventory:any;
+
+declare const http:any;
 
 export class EvotorConnection implements Connection {
   public readyState: ReadyState;
@@ -102,18 +103,6 @@ export class EvotorConnection implements Connection {
             path: request.url,
             body: request.getBody()
           }));
-
-
-          // var xhr = new XMLHttpRequest();
-          // xhr.open(
-          //   methodString,
-          //   ('http://stage.alol.io/rest/2.0/'+request.url),
-          //   false
-          // );
-          // xhr.setRequestHeader('Content-Type', 'application/json');
-          // xhr.setRequestHeader('Authorization', (new AppSettings().authorizationHeader));
-          // xhr.send(request.getBody());
-          // var res = xhr.responseText as any;
 
           if (typeof res === "string") {
             res = JSON.parse(res)

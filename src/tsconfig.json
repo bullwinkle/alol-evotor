@@ -9,7 +9,7 @@
       "dom"
     ],
     "mapRoot": "./",
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
@@ -20,7 +20,8 @@
     "types": [
       "@angular",
       "lodash",
-      "rx"
+      "rx",
+      "node"
     ],
     "exclude": [
       "test.ts",

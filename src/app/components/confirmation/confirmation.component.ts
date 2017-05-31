@@ -2,7 +2,7 @@ import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import * as _ from "lodash"
-const get = _.get;
+const _get = require('lodash/get');
 
 import {EvotorResource} from '../../common/resources/evotor.resource';
 import {NotificationService} from '../../common/services/notification.service';
@@ -15,6 +15,7 @@ import {
   IConfirmConnectionParams,
   ISmsRequest,
 } from '../../../typings'
+import Timer = NodeJS.Timer;
 
 @Component({
   selector: 'app-confirmation',
@@ -24,7 +25,7 @@ import {
 export class ConfirmationComponent implements OnInit {
 
   private timeRemain: number = 0;
-  private timeRemainInterval: number;
+  private timeRemainInterval: Timer;
   private smsCode: string = '';
   private canSubmitSmsCode: boolean = true;
   private isSMSCodeSubmitting: boolean = false;
@@ -77,19 +78,19 @@ export class ConfirmationComponent implements OnInit {
 
             if (!this.parseConfirmationResponse(res)) return false;
 
-            let discountPercent = get(res,'discount_cards[0].percent',0);
-            let userId = get(res,'user.id',null);
-            let userPhone = get(res,'customer.phone',null);
-            let cardNumber = get(res,'mastercard.card_number',null);
-            let cardId = params.cardId;
+            let discountCardPercent = _get(res,'discount_cards[0].percent',0);
+            let discountCardId = _get(res,'discount_cards[0].discountcard_id',0);
+            let userId = _get(res,'user.id',null);
+            let userPhone = _get(res,'user.phone',null);
+            let cardNumber = _get(res,'mastercard.card_number',null);
 
-            this.evo.applyDiscount(discountPercent);
+            discountCardPercent && this.evo.applyDiscount(discountCardPercent);
 
             this.evo.addExtraDataToReceipt({
               user_id: userId,
               user_phone: userPhone,
               card_number: cardNumber,
-              discountcard_id: cardId
+              discountcard_id: discountCardId
             });
 
             this.evo.close();
