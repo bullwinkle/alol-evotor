@@ -1,0 +1,56 @@
+version: 62
+versionName: "1.0.62"
+
+packageName: booster_test
+appName: "Booster Test v62"
+appUUID: "3204f507-1bc4-4944-855c-c25742257103"
+iconColor: "#4CAE75"
+
+capabilities:
+  - inventoryTest
+  - storage
+  - http
+  - navigation
+  - event-bus
+  - receipts
+  - logger
+
+daemons:
+  - name: alol
+    events:
+      - evo.receipt.opened
+      - evo.receipt.productAdded
+      - evo.receipt.productRemoved
+      - evo.receipt.closed
+      - evo.receipt.clear
+    behavior: alol-daemon.js
+
+plugins:
+  - name: alol
+    moments:
+      - evo.receipt.items.fixed
+    point: before
+    behavior: before-receipt-fixed.js
+
+views:
+  - name: launcher
+    header: "BoosterTest"
+    source: client/views/alol/index.html
+    scripts:
+      - inline.bundle.js
+      - polyfills.bundle.js
+      - vendor.bundle.js
+      - main.bundle.js
+    styles:
+      - styles.bundle.css
+
+  - name: alol
+    header: "BoosterTest"
+    source: client/views/alol/index.html
+    scripts:
+      - inline.bundle.js
+      - polyfills.bundle.js
+      - vendor.bundle.js
+      - main.bundle.js
+    styles:
+      - styles.bundle.css
