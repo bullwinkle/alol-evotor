@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/finally';
 
 import {ApiService} from "./services/api.service"
 import {EvotorService} from "./services/evotor.service"

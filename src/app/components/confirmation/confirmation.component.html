@@ -16,7 +16,7 @@
         <div style="max-width: 105px; font-size:14px;">
 
           <md-input-container dividerColor="accent">
-            <input md-input
+            <input mdInput
                    type="tel"
                    ngModel
                    name="smsCode"
@@ -56,7 +56,7 @@
           <input type="tel"
                  name="card"
                  placeholder="Номер мульти-карты"
-                 md-input
+                 mdInput
                  class="md-accent"
                  [(ngModel)]="user.cardNumber"
                  [textMask]="{mask: INPUT_MASKS?.card?.regExp}"
@@ -69,7 +69,7 @@
         <md-input-container dividerColor="accent" class="l-w-100p">
           <input type="search"
                  [(ngModel)]="user.lastName"
-                 md-input
+                 mdInput
                  name="lastName"
                  class="md-accent"
                  placeholder="Фамилия">
@@ -78,7 +78,7 @@
         <md-input-container dividerColor="accent" class="l-w-100p">
           <input type="search"
                  [(ngModel)]="user.name"
-                 md-input
+                 mdInput
                  name="name"
                  class="md-accent"
                  placeholder="Имя">
@@ -103,7 +103,7 @@
         <md-input-container dividerColor="accent" class="l-w-100p">
           <input type="date"
                  [(ngModel)]="user.dateOfBirth"
-                 md-input
+                 mdInput
                  name="dateOfBirth"
                  class="md-accent"
                  placeholder="Дата рождения">
@@ -112,7 +112,7 @@
         <md-input-container [dividerColor]="email.valid? 'accent' : 'warn'" class="l-w-100p">
           <input type="search"
                  [(ngModel)]="user.email"
-                 md-input
+                 mdInput
                  name="email"
                  #email="ngModel"
                  pattern="^.+@.+\..+$"
@@ -126,7 +126,7 @@
 
         <md-input-container dividerColor="accent" class="l-w-100p">
             <textarea [(ngModel)]="user.comment"
-                      md-input
+                      mdInput
                       md-textarea-autosize
                       name="comment"
                       class="md-accent"

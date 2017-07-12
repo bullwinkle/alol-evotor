@@ -20,7 +20,7 @@
                name="phone"
                placeholder="Номер телефона"
                required
-               md-input
+               mdInput
                [(ngModel)]="user.phone"
                [textMask]="{mask: INPUT_MASKS?.phone?.regExp}"
                (focus)="onInputFocus($event)"

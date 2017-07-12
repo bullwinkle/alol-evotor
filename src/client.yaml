@@ -14,6 +14,8 @@ capabilities:
   - event-bus
   - receipts
   - logger
+  - internet
+  - barcode-scanner
 
 daemons:
   - name: alol
@@ -33,9 +35,17 @@ plugins:
     behavior: before-receipt-fixed.js
 
 views:
-  - name: launcher
+  - name: alol
     header: "BoosterTest"
+    label: "Booster"
+    color: "#5aa64d"
+    icon_96: icons/booster_96.png
+    icon_192: icons/booster_192.png
+    icon_256: icons/booster_256.png
     source: client/views/alol/index.html
+    point: MAIN_SCREEN
+    grants:
+      - CASH_OPERATIONS_SELL
     scripts:
       - inline.bundle.js
       - polyfills.bundle.js
@@ -46,7 +56,15 @@ views:
 
   - name: alol
     header: "BoosterTest"
+    label: "Booster"
+    color: "#5aa64d"
+    icon_96: icons/booster_96.png
+    icon_192: icons/booster_192.png
+    icon_256: icons/booster_256.png
     source: client/views/alol/index.html
+    point: SALES_SCREEN
+    grants:
+      - CASH_OPERATIONS_SELL
     scripts:
       - inline.bundle.js
       - polyfills.bundle.js

@@ -17,7 +17,7 @@
         <md-input-container dividerColor="accent">
           <input type="tel"
                  name="phone"
-                 md-input
+                 mdInput
                  placeholder="Номер телефона"
                  [(ngModel)]="user.phone"
                  (ngModelChange)="isPhoneValid($event)? submitForm(formGroup.value):'';"
@@ -35,7 +35,7 @@
           <input type="tel"
                  name="card"
                  placeholder="Номер карты"
-                 md-input
+                 mdInput
                  [(ngModel)]="user.cardNumber"
                  (ngModelChange)="isCardValid($event)? submitForm(formGroup.value):'';"
                  [textMask]="{mask: INPUT_MASKS?.card?.regExp}"

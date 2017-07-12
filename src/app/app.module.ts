@@ -1,5 +1,6 @@
 // import 'hammerjs';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppSettings} from './app.settings';
 import {NgModule} from '@angular/core';
 import {HttpModule, Http, XHRBackend, BaseRequestOptions,BaseResponseOptions, ConnectionBackend} from '@angular/http';
@@ -12,15 +13,17 @@ import {APP_BASE_HREF} from '@angular/common';
 
 import { TextMaskModule } from 'angular2-text-mask';
 
-import { MdButtonModule } from '@angular/material/button/index';
-import { MdCheckboxModule } from '@angular/material/checkbox/index';
-import { MdRadioModule } from '@angular/material/radio/index';
-import { MdIconModule } from '@angular/material/icon/index';
-import { MdProgressSpinnerModule } from '@angular/material/progress-spinner/index';
-import { MdInputModule } from '@angular/material/input/index';
-import { MdSnackBarModule } from '@angular/material/snack-bar/index';
-import { MdToolbarModule } from '@angular/material/toolbar/index';
-import { MdDialogModule } from '@angular/material/dialog/index';
+import {
+  MdButtonModule,
+  MdCheckboxModule,
+  MdRadioModule,
+  MdIconModule,
+  MdProgressSpinnerModule,
+  MdInputModule,
+  MdSnackBarModule,
+  MdToolbarModule,
+  MdDialogModule
+} from '@angular/material';
 
 import {HttpService} from './common/services/_http.service';
 import {EvotorBackend} from './common/services/evotor.service';
@@ -44,6 +47,7 @@ import {HttpFactory} from './common/http.factory';
 @NgModule({
   imports: [
     BrowserModule
+    ,BrowserAnimationsModule
     ,CommonModule
     ,FormsModule
     ,ReactiveFormsModule
@@ -54,15 +58,15 @@ import {HttpFactory} from './common/http.factory';
 
     ,TextMaskModule
 
-    ,MdButtonModule.forRoot()
-    ,MdCheckboxModule.forRoot()
-    ,MdRadioModule.forRoot()
-    ,MdIconModule.forRoot()
-    ,MdProgressSpinnerModule.forRoot()
-    ,MdInputModule.forRoot()
-    ,MdSnackBarModule.forRoot()
-    ,MdToolbarModule.forRoot()
-    ,MdDialogModule.forRoot()
+    ,MdButtonModule
+    ,MdCheckboxModule
+    ,MdRadioModule
+    ,MdIconModule
+    ,MdProgressSpinnerModule
+    ,MdInputModule
+    ,MdSnackBarModule
+    ,MdToolbarModule
+    ,MdDialogModule
 
   ],
   declarations: [

@@ -39,7 +39,7 @@ export class EvotorResource {
     return !str?'':str.replace(/\D/g, '');
   }
 
-  checkUser({phone, card}): Observable<IUserDiscountCardConnectionResponse> {
+  checkUser({phone, card}): Observable<{} | IUserDiscountCardConnectionResponse> {
     console.warn(this.http)
 
     if (!phone && !card)

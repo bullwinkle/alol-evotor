@@ -1,6 +1,6 @@
 import {Injectable, ViewContainerRef} from '@angular/core';
 import {MdSnackBar, MdSnackBarRef, MdSnackBarConfig} from '@angular/material';
-import {SimpleSnackBar} from '@angular/material/snack-bar/simple-snack-bar';
+import {SimpleSnackBar} from '@angular/material';
 
 export interface NotifyOptions {
   data: Object | string,
