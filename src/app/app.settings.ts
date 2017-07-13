@@ -11,7 +11,7 @@ export const APP_SETTINGS: IAppSettings = {
   debug: false,
   baseUrl: 'https://stage.alol.io',
   apiUrl: '/rest/2.0/',
-  authorizationHeader: 'Bearer 9105afc974d12f793f3ab04f996485f7f512de21'
+  authorizationHeader: 'Bearer c9c6497598f3a334a5f101b63dc2e58fde88de42'
 };
 
 @Injectable()
