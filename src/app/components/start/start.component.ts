@@ -52,19 +52,19 @@ export class StartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.evo.scannerEvents.subscribe(
-      data => {
-        this._zone.run(() => {
-          console.warn('[WORKS!]',data)
-          if (typeof data === 'string') {
-            this.user.cardNumber = data;
-            if (this.isCardValid(this.user.cardNumber)) {
-              this.submitForm(this.user.cardNumber);
-            }
-          }
-        })
-      }
-    );
+    // this.evo.scannerEvents.subscribe(
+    //   data => {
+    //     this._zone.run(() => {
+    //       console.warn('[WORKS!]',data)
+    //       if (typeof data === 'string') {
+    //         this.user.cardNumber = data;
+    //         if (this.isCardValid(this.user.cardNumber)) {
+    //           this.submitForm(this.user.cardNumber);
+    //         }
+    //       }
+    //     })
+    //   }
+    // );
   }
 
   onInputInput(e: Event) {

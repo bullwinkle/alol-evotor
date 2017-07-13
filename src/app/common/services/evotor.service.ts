@@ -16,7 +16,6 @@ import {Observable} from 'rxjs/Observable';
 
 import {
   IEvotorHttp,
-  IEvotorRequest,
   IEvotorReceipt,
   IEvotorNavigation,
   IEvotorProduct,
@@ -77,32 +76,40 @@ export class EvotorConnection implements Connection {
     this.readyState = ReadyState.Open;
     this.response = new Observable((responseObserver) => {
 
+      /**
+       * Real methods, available for Evotor: just 'get' and 'post'
+       */
       let methodString = (() => {
         switch (request.method) {
           case RequestMethod.Get:
-            return 'GET';
+            return 'get';
           case RequestMethod.Post:
-            return 'POST';
+            return 'post';
           case RequestMethod.Put:
-            return 'PUT';
+            return 'post';
           case RequestMethod.Patch:
-            return 'PATCH';
+            return 'post';
           case RequestMethod.Delete:
-            return 'DELETE';
+            return 'get';
           case RequestMethod.Options:
-            return 'OPTIONS';
+            return 'get';
           case RequestMethod.Head:
-            return 'HEAD';
+            return 'get';
         }
       })();
 
       let evoResponseBody = ((): any => {
         try {
-          let res = this.http.send(JSON.stringify({
-            method: methodString,
-            path: request.url,
-            body: request.getBody()
-          }));
+          let res = (()=>{
+            switch (methodString) {
+              case "get": return this.http.get(request.url);
+              case "post": return this.http.post(
+                request.url,
+                JSON.stringify(request.getBody()),
+                JSON.stringify({mediaType:'application/json'})
+              )
+            }
+          })();
 
           if (typeof res === "string") {
             res = JSON.parse(res)
@@ -153,6 +160,7 @@ export class EvotorBackend implements ConnectionBackend {
 export class EvotorService {
 
   private http: IEvotorHttp;
+
   private receipt: IEvotorReceipt;
   private navigation: IEvotorNavigation;
   private inventory: IEvotorInventory;
@@ -244,7 +252,7 @@ export class EvotorService {
 
   applyDiscount(discountPercent: number) {
     try {
-      this.receipt.applyReceiptDiscountPercent(discountPercent);
+      this.receipt.applyReceiptDiscount(discountPercent);
       this.logger.log(LoggerService.LogTypes.success, {'receipt.applyReceiptDiscountPercent(...)': discountPercent});
     } catch (e) {
       this.logger.log(LoggerService.LogTypes.error, {'receipt.applyReceiptDiscountPercent(...)': e});
@@ -256,7 +264,7 @@ export class EvotorService {
 
     try {
       let dataStr = JSON.stringify(data);
-      this.receipt.addExtraReceiptData(dataStr);
+      this.receipt.addReceiptExtra(dataStr);
       this.logger.log(LoggerService.LogTypes.success, {'receipt.addExtraReceiptData(...)': dataStr});
       return true;
     } catch (err) {

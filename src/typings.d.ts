@@ -150,20 +150,15 @@ export interface IConfirmConnectionResponse {
 
 
 export interface IEvotorHttp {
-  send(params: string | Object): any
-}
-
-export interface IEvotorRequest {
-  method: string,
-  path: string,
-  body: any
+  get(url: string | Object): any
+  post(url: string, payload: string, mediaType: string): any
 }
 
 export interface IEvotorReceipt {
-  applyReceiptDiscountPercent(discount: number): void  //применение скидки ко всему чеку, процентное значение
-  removePosition(uuid: string): void                   // удаление из чека товара, который уже был добавлен через addPosition
-  addPosition(uuid: string): void                     // добавление товара в чек
-  addExtraReceiptData(data:string):void               // доп. инфо
+  applyReceiptDiscount(discount: number): void  //применение скидки ко всему чеку, абсолютное значение в рублях
+  removePosition(uuid: string): void            // удаление из чека товара, который уже был добавлен через addPosition
+  addPosition(uuid: string): void               // добавление товара в чек
+  addReceiptExtra(data:string):void             // доп. инфо
 }
 
 export interface IEvotorNavigation {
