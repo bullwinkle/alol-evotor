@@ -1,8 +1,8 @@
-version: 62
-versionName: "1.0.62"
+version: 65
+versionName: "1.0.65"
 
 packageName: booster_test
-appName: "Booster Test v62"
+appName: "Booster Test v65"
 appUUID: "3204f507-1bc4-4944-855c-c25742257103"
 iconColor: "#4CAE75"
 
@@ -35,13 +35,13 @@ plugins:
     behavior: before-receipt-fixed.js
 
 views:
-  - name: alol
-    header: "BoosterTest"
-    label: "Booster"
+  - name: launcher
+    header: "BoosterTest header"
+    label: "BoosterTest label"
     color: "#5aa64d"
-    icon_96: icons/booster_96.png
-    icon_192: icons/booster_192.png
-    icon_256: icons/booster_256.png
+    icon_96: client/views/alol/assets/icons/booster_96.png
+    icon_192: client/views/alol/assets/icons/booster_192.png
+    icon_256: client/views/alol/assets/icons/booster_256.png
     source: client/views/alol/index.html
     point: MAIN_SCREEN
     grants:
@@ -55,12 +55,12 @@ views:
       - styles.bundle.css
 
   - name: alol
-    header: "BoosterTest"
-    label: "Booster"
+    header: "BoosterTest header"
+    label: "BoosterTest label"
     color: "#5aa64d"
-    icon_96: icons/booster_96.png
-    icon_192: icons/booster_192.png
-    icon_256: icons/booster_256.png
+    icon_96: client/views/alol/assets/icons/booster_96.png
+    icon_192: client/views/alol/assets/icons/booster_192.png
+    icon_256: client/views/alol/assets/icons/booster_256.png
     source: client/views/alol/index.html
     point: SALES_SCREEN
     grants:
