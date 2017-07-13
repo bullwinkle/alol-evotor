@@ -12,7 +12,8 @@ import {INPUT_MASKS} from "../../common/constants/inputMasks";
 import {LoggerService} from "../../common/services/logger.service";
 
 import {
-  IConfirmConnectionParams,
+  ConfirmConnectionResponse,
+  IConfirmConnectionParams, IConfirmConnectionResponse,
   ISmsRequest,
 } from '../../../typings'
 import Timer = NodeJS.Timer;
@@ -179,13 +180,13 @@ export class ConfirmationComponent implements OnInit {
       )
   }
 
-  parseConfirmationResponse(data: any) {
+  parseConfirmationResponse(data: IConfirmConnectionResponse) {
     try {
 
       let result = true;
-      let messages = data.messages || {};
-      let state = data.state || {};
-      let user = data.user || {};
+      let messages = data.messages || {} as ConfirmConnectionResponse.IMessages;
+      let state = data.state || {} as ConfirmConnectionResponse.IState;
+      let user = data.user || {} as ConfirmConnectionResponse.IUser;
 
       if (!state.is_confirmed) {
         result = false;

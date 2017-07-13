@@ -28,7 +28,7 @@ export class UserService {
   public phone: string;
   public cardNumber: string;
   public discountCardId: number;
-  public sex: Sex.male | Sex.female;
+  public sex: Sex;
   public dateOfBirth: string;
   public email: string;
   public comment: string;

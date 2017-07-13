@@ -110,44 +110,52 @@ export interface IConfirmConnectionParams {
 }
 
 
-
-export interface IConfirmConnectionResponse {
-  user:{
-    id: number,
-    phone:string,
-    email:string,
-    first_name: string,
-    last_name:string,
-    sex:0,
-    birthday:null
-  },
-  customer:{
-    id:number,
-    user_id:number,
-    company_id:number,
-    phone:string,
-    email:string,
-    first_name:string,
-    last_name:string,
-    sex:number,
-    birthday:string,
-    comment:string,
-  }
-  phone: string,
-  discount_cards: ICompanyDiscrountCard[],
-  state:{
-    has_user:false,
-    is_confirmed:true,
-    is_loyalty_activate:true
-  },
-  messages:{
-    find_user:string
+export namespace ConfirmConnectionResponse {
+  export interface IUser {
+    id?: number,
+    phone?:string,
+    email?:string,
+    first_name?: string,
+    last_name?:string,
+    sex?:0,
+    birthday?:null
   }
 
+  export interface ICustomer {
+    id?:number,
+    user_id?:number,
+    company_id?:number,
+    phone?:string,
+    email?:string,
+    first_name?:string,
+    last_name?:string,
+    sex?:number,
+    birthday?:string,
+    comment?:string,
+  }
+
+  export interface IState {
+    has_user?:boolean,
+    is_confirmed?:boolean,
+    is_loyalty_activate?:boolean,
+    is_phone_number_valid: boolean
+  }
+
+  export interface IMessages {
+    find_user?:string,
+    check_confirmation_code?: string,
+    invalid_phone?:string
+  }
 }
 
-
-
+export interface IConfirmConnectionResponse {
+  user?: ConfirmConnectionResponse.IUser
+  customer?: ConfirmConnectionResponse.ICustomer
+  state?: ConfirmConnectionResponse.IState
+  messages?: ConfirmConnectionResponse.IMessages
+  phone?:string
+  discount_cards?:ICompanyDiscrountCard[]
+}
 
 export interface IEvotorHttp {
   get(url: string | Object): any
