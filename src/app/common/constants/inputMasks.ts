@@ -19,9 +19,9 @@ export const INPUT_MASKS_CONFIG = {
 };
 
 export class INPUT_MASKS {
-  protected phone = INPUT_MASKS_CONFIG[MASKED_INPUT_NAMES.PHONE];
-  protected card = INPUT_MASKS_CONFIG[MASKED_INPUT_NAMES.CARD];
-  protected names = MASKED_INPUT_NAMES;
+  phone = INPUT_MASKS_CONFIG[MASKED_INPUT_NAMES.PHONE];
+  card = INPUT_MASKS_CONFIG[MASKED_INPUT_NAMES.CARD];
+  names = MASKED_INPUT_NAMES;
 
   constructor() {
     if (o) return o;

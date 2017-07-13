@@ -8,7 +8,7 @@ import { MdDialogRef } from '@angular/material';
 export class ConfirmRegisterModalComponent {
   value: any
   constructor (
-    private dialogRef: MdDialogRef<ConfirmRegisterModalComponent>
+    public dialogRef: MdDialogRef<ConfirmRegisterModalComponent>
   ) {}
 }
 

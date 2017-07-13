@@ -24,9 +24,9 @@ import Timer = NodeJS.Timer;
 })
 export class ConfirmationComponent implements OnInit {
 
-  private timeRemain: number = 0;
-  private timeRemainInterval: Timer;
-  private smsCode: string = '';
+  public timeRemain: number = 0;
+  public timeRemainInterval: Timer;
+  public smsCode: string = '';
   private canSubmitSmsCode: boolean = true;
   private isSMSCodeSubmitting: boolean = false;
   private isSubmitBlocked: boolean = false;
