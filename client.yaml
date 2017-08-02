@@ -1,13 +1,12 @@
-version: 65
-versionName: "1.0.65"
+version: 82
+versionName: "1.0.82"
 
 packageName: booster_test
-appName: "Booster Test v65"
+appName: "Booster Test v82"
 appUUID: "3204f507-1bc4-4944-855c-c25742257103"
 iconColor: "#4CAE75"
 
 capabilities:
-  - inventoryTest
   - storage
   - http
   - navigation
@@ -36,13 +35,13 @@ plugins:
 
 views:
   - name: launcher
-    header: "BoosterTest header"
-    label: "BoosterTest label"
+    header: "BoosterTest v82"
+    label: "BoosterTest v82"
     color: "#5aa64d"
-    icon_96: client/views/alol/assets/icons/booster_96.png
-    icon_192: client/views/alol/assets/icons/booster_192.png
-    icon_256: client/views/alol/assets/icons/booster_256.png
-    source: client/views/alol/index.html
+    icon_96: views/alol/assets/icons/booster_96.png
+    icon_192: views/alol/assets/icons/booster_192.png
+    icon_256: views/alol/assets/icons/booster_256.png
+    source: views/alol/index.html
     point: MAIN_SCREEN
     grants:
       - CASH_OPERATIONS_SELL
@@ -55,13 +54,13 @@ views:
       - styles.bundle.css
 
   - name: alol
-    header: "BoosterTest header"
-    label: "BoosterTest label"
+    header: "BoosterTest v82"
+    label: "BoosterTest"
     color: "#5aa64d"
-    icon_96: client/views/alol/assets/icons/booster_96.png
-    icon_192: client/views/alol/assets/icons/booster_192.png
-    icon_256: client/views/alol/assets/icons/booster_256.png
-    source: client/views/alol/index.html
+    icon_96: views/alol/assets/icons/booster_96.png
+    icon_192: views/alol/assets/icons/booster_192.png
+    icon_256: views/alol/assets/icons/booster_256.png
+    source: views/alol/index.html
     point: SALES_SCREEN
     grants:
       - CASH_OPERATIONS_SELL
