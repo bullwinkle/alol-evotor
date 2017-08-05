@@ -19,12 +19,12 @@
 </div>
 
 <script>
-  function handleScannerEvent (event) {
+  window.handleScannerEvent = function (event) {
     window.console.info('handleScannerEvent', event);
     if ((typeof logger !== 'undefined') && logger.log) {
       logger.log({scannerData: event})
     }
-  }
+  };
 </script>
 
 </body>

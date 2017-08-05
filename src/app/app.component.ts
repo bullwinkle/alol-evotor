@@ -50,6 +50,27 @@ export class AppComponent implements OnInit {
       this.goBackHidden = get(e, 'state.root.firstChild.data.goBackHidden',false) as boolean;
 
     });
+
+
+    setTimeout(()=>{
+
+      try {
+        this.http.get('https://alol.io/rest/2.0/user/644')
+          .subscribe(
+            (res)=>{
+              alert('http ok')
+              alert(res);
+              alert(res.json());
+            },
+            (res)=>{
+              alert('http fuck')
+              alert(res)
+          })
+      } catch (e) {
+        alert('http error ' + e.message)
+      }
+    },2000)
+
   }
 
 

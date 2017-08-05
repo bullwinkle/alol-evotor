@@ -24,7 +24,6 @@ import {
 } from '../../../typings';
 import {AppSettings} from "../../app.settings";
 import {LoggerService} from "./logger.service";
-import {Observer} from "rxjs";
 
 const scannerEvents = ((window):Observable<any> => {
 
@@ -74,7 +73,7 @@ export class EvotorConnection implements Connection {
     this.http = http;
     this.request = request;
     this.readyState = ReadyState.Open;
-    this.response = new Observable((responseObserver) => {
+    this.response = Observable.create((responseObserver) => {
 
       /**
        * Real methods, available for Evotor: just 'get' and 'post'
@@ -98,7 +97,7 @@ export class EvotorConnection implements Connection {
         }
       })();
 
-      let evoResponseBody = ((): any => {
+      let evoResponseBody = (() => {
         try {
           let res = (()=>{
             switch (methodString) {
@@ -119,7 +118,7 @@ export class EvotorConnection implements Connection {
 
         } catch (err) {
           return {
-            error: 'request error' + err
+            error: 'request error ' + err
           }
         }
       })();
@@ -133,8 +132,6 @@ export class EvotorConnection implements Connection {
           return options as ResponseOptions
         }
       });
-
-      console.info('response', response);
 
       if (!evoResponseBody.error) {
         responseObserver.next(response);
@@ -171,18 +168,17 @@ export class EvotorService {
 
   constructor(public settings: AppSettings,
               public logger: LoggerService) {
-    window['evo'] = this;
     try {
       this.http = http;
       this.receipt = receipt;
       this.navigation = navigation;
       this.inventory = inventory;
     } catch (e) {
-
+      this.logger.log(LoggerService.LogTypes.error,'EvotorService ' + e.stack)
     }
 
-    // if (this.settings.debug)
-    //   this.testAlert();
+    if (this.settings.debug)
+      this.testAlert();
     this.scannerEvents.subscribe(
       e => {
         console.info('scannerEvents', e)

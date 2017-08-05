@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-
-import * as _ from "lodash";
+const _chain = require('lodash/chain');
+const _mapValues = require('lodash/mapValues');
+const _pick = require('lodash/pick');
 
 import {
   IUser,
@@ -164,19 +165,19 @@ export class EvotorResource {
 
   normalizeDate(date:string|number):number {
       if (typeof date === 'number') return date;
-      date = (()=>{
-        if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-          return date;
+      const dateString = ((d:string)=>{
+        if (/^\d{4}-\d{2}-\d{2}$/.test(d as string)) {
+          return d;
         } else
-        if (/^\d{2}-\d{2}-\d{4}$/.test(date)) {
-          return `${date.substr(-4)}-${date.substr(3,2)}-${date.substr(0,2)}`;
+        if (/^\d{2}-\d{2}-\d{4}$/.test(d)) {
+          return `${d.substr(-4)}-${d.substr(3,2)}-${d.substr(0,2)}`;
         } else
-        if (/^\d{2}\.\d{2}\.\d{4}$/.test(date)) {
-          return `${date.substr(-4)}-${date.substr(3,2)}-${date.substr(0,2)}`;
+        if (/^\d{2}\.\d{2}\.\d{4}$/.test(d)) {
+          return `${d.substr(-4)}-${d.substr(3,2)}-${d.substr(0,2)}`;
         }
-      })();
+      })(date as string);
 
-      let ts = Number(new Date(date))/1000;
+      let ts = Number(new Date(dateString))/1000;
       if (!isNaN(ts)) return ts;
       else return null;
   }
@@ -191,11 +192,11 @@ function convert (
     keys:string[]=[],
     converter = (el)=>{return el}
   ):Object {
-  return _.chain({})
+  return _chain({})
     .merge(obj)
     .merge(
-      _.mapValues(
-        _.pick(obj,keys),converter
+      _mapValues(
+        _pick(obj,keys),converter
       )
     )
     .value()

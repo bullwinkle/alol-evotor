@@ -9,7 +9,6 @@ import {
   RequestMethod
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
 
 import {ApiService} from "./api.service"
 import {LoggerService} from "./logger.service"
@@ -40,8 +39,8 @@ class RequestLogger {
       let start = el.start;
       let finish = el.finish;
       let body = Object.assign({},el.body);
-      delete body.scenario;
-      delete body._requestsLog;
+      delete body['scenario'];
+      delete body['_requestsLog'];
       return {[scenario]:{start,finish,body}}
     });
   }
@@ -67,17 +66,13 @@ export class HttpService extends Http implements Http {
     return ApiService.buildUrl(relativeUrl);
   }
 
-  // private buildOptions (options:any):RequestOptionsArgs {
-  //   return ApiService.buildOptions(options);
-  // }
-
-  request(url: string|Request, options?: RequestOptionsArgs) : Observable<Response> {
+  request(url: string | Request, options?: RequestOptionsArgs) : Observable<Response> {
     requestId++;
 
     if (url instanceof Request) {
-      url.url = this.buildUrl(url.url);
+      url['url'] = this.buildUrl(url['url']);
     } else if (typeof url === 'string') {
-      url = this.buildUrl(url);
+      url = this.buildUrl(url as string);
     }
 
     let logData:RequestLog = (()=>{

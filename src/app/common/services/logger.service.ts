@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {AppSettings} from "../../app.settings";
+import { IEvotorLoger } from '../../../typings';
 
 const LogTypes = {
   error: 'Error',
@@ -12,7 +13,7 @@ const LogTypes = {
 declare var logger:any;
 
 @Injectable()
-export class LoggerService {
+export class LoggerService implements IEvotorLoger {
 
   static LogTypes = LogTypes;
 
@@ -22,7 +23,7 @@ export class LoggerService {
     try {
       data = this.normalizeData(data);
       console.info(name,data)
-      // logger.log('ru.evotor.market.booster_test ' + data)
+      logger.log(name + ': ' + data)
     } catch (err) {
       console.error('Logger error',err)
     }
@@ -33,7 +34,7 @@ export class LoggerService {
 
   }
 
-  normalizeData(data:any):Object {
+  normalizeData(data:any):string {
     if (typeof data !== 'string') {
       data =  JSON.stringify(data,null,2)
     }

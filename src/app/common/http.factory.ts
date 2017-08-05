@@ -2,7 +2,7 @@ import {BaseRequestOptions, ConnectionBackend, Headers} from '@angular/http';
 import * as _ from "lodash";
 const merge = _.merge;
 
-import {HttpService} from './services/_http.service';
+import {HttpService} from './services/http.service';
 import {ApiService} from "./services/api.service";
 import {LoggerService} from "./services/logger.service";
 

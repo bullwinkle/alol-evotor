@@ -1,8 +1,8 @@
-version: 82
-versionName: "1.0.82"
+version: 83
+versionName: "1.0.83"
 
 packageName: booster_test
-appName: "Booster Test v82"
+appName: "Booster Test v83"
 appUUID: "3204f507-1bc4-4944-855c-c25742257103"
 iconColor: "#4CAE75"
 

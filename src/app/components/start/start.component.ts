@@ -215,6 +215,8 @@ export class StartComponent implements OnInit {
           (err) => {
             console.warn('request error:', err);
             this.logger.log(LoggerService.LogTypes.responseError, err)
+            this.logger.log(LoggerService.LogTypes.responseError, err.json)
+            this.logger.log(LoggerService.LogTypes.responseError, err.body)
             this.notificator.error({data: 'request error'});
           })
     },10)

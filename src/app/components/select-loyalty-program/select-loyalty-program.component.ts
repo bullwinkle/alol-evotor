@@ -1,14 +1,7 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {LoggerService} from "../../common/services/logger.service";
-import 'rxjs/add/operator/delay';
-
-import {
-  IUser,
-  ICompanyDiscrountCard
-} from '../../../typings';
-
-import {Http} from '@angular/http';
 import {NotificationService} from '../../common/services/notification.service';
 import {EvotorResource} from '../../common/resources/evotor.resource';
 import {UserService} from '../../services/user.service';
@@ -25,12 +18,10 @@ export class SelectLoyaltyProgramComponent implements OnInit {
   public isSubmitBlocked: boolean = false;
   public isLoading: boolean = false;
 
-  constructor(public el: ElementRef,
-              private logger: LoggerService,
+  constructor(private logger: LoggerService,
               public user: UserService,
               public discountCards: DiscountCardsService,
               public INPUT_MASKS: INPUT_MASKS,
-              private http: Http,
               private router: Router,
               private evoResource: EvotorResource,
               private notificator: NotificationService) {

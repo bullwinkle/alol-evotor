@@ -8,8 +8,8 @@ export interface IAppSettings {
 }
 
 export const APP_SETTINGS: IAppSettings = {
-  debug: false,
-  baseUrl: 'https://stage.alol.io',
+  debug: true,
+  baseUrl: 'https://alol.io',
   apiUrl: '/rest/2.0/',
   authorizationHeader: 'Bearer c9c6497598f3a334a5f101b63dc2e58fde88de42'
 };

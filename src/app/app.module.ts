@@ -1,9 +1,15 @@
-// import 'hammerjs';
+import 'hammerjs';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/toPromise';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppSettings} from './app.settings';
 import {NgModule} from '@angular/core';
-import {HttpModule, Http, XHRBackend, BaseRequestOptions,BaseResponseOptions, ConnectionBackend} from '@angular/http';
+import {HttpModule, Http, XHRBackend, BaseRequestOptions,BaseResponseOptions} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -25,7 +31,7 @@ import {
   MdDialogModule
 } from '@angular/material';
 
-import {HttpService} from './common/services/_http.service';
+import {HttpService} from './common/services/http.service';
 import {EvotorBackend} from './common/services/evotor.service';
 import {LoggerService} from './common/services/logger.service';
 import {AppCommonModule} from './common/common.module';
