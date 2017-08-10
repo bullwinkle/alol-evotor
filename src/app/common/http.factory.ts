@@ -10,17 +10,20 @@ declare var http:any;
 
 export function HttpFactory (
    xhrBackend: ConnectionBackend,
-   evotorBackend: ConnectionBackend,
+   // evotorBackend: ConnectionBackend,
    baseRequestOptions: BaseRequestOptions,
    logger: LoggerService
 ) {
 
+
+
   let backend = (() => {
-    if (typeof http !== 'undefined') {
-      return evotorBackend
-    } else {
-      return xhrBackend
-    }
+    // if (typeof http !== 'undefined') {
+    //   return evotorBackend
+    // } else {
+    //   return xhrBackend
+    // }
+    return xhrBackend;
   })();
 
   baseRequestOptions.merge = (options) =>

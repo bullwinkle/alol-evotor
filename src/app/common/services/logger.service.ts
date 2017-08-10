@@ -4,10 +4,11 @@ import {AppSettings} from "../../app.settings";
 import { IEvotorLoger } from '../../../typings';
 
 const LogTypes = {
-  error: 'Error',
-  success: 'Success',
-  responseError: 'ResponseError',
-  responseSuccess: 'ResponseSuccess'
+  success: '[Success] ',
+  warning: '[Warning] ',
+  error: '[Error] ',
+  responseError: '[ResponseError] ',
+  responseSuccess: '[ResponseSuccess] ',
 };
 
 declare var logger:any;
@@ -20,13 +21,32 @@ export class LoggerService implements IEvotorLoger {
   constructor(public settings: AppSettings) {}
 
   log(name: string,data:any) {
-    try {
-      data = this.normalizeData(data);
-      console.info(name,data)
-      logger.log(name + ': ' + data)
-    } catch (err) {
-      console.error('Logger error',err)
-    }
+    [
+      [
+        () => data = this.normalizeData(data),
+        () => 'LoggerService: normalizeData failed'
+      ],
+      [
+        () => { switch (name) {
+            case LogTypes.success: console.log(name,data); break;
+            case LogTypes.warning: console.warn(name,data); break;
+            case LogTypes.error: console.warn(name,data); break;
+            case LogTypes.responseSuccess: console.info(name,data); break;
+            case LogTypes.responseError: console.warn(name,data); break;
+            default: console.log(name,data); break;
+        }},
+        () => 'LoggerService: log failed'
+      ],
+      [
+        () => logger.log(name + ': ' + data),
+        () => 'LoggerService: evotor`s "logger.log" failed to log'
+      ],
+    ].forEach(([tryFn,parseError],i)=>{
+
+      try { tryFn() }
+      catch (e) { console.log(parseError()) }
+
+    });
 
     if (this.settings.debug) {
       alert(name+''+data)

@@ -16,18 +16,24 @@ export class ApiService {
 
     let urlParts = [];
 
-    if (typeof http !== 'undefined') { // TODO SUPER DIRTY HACK, MAKE BETTER LATER
-      urlParts.push(
-        relativeUrl
-      );
-      urlParts[0] = urlParts[0].replace(/^\//,'');
-    } else {
-      urlParts.push(
-        this.settings.baseUrl,
-        this.settings.apiUrl,
-        relativeUrl
-      )
-    }
+    // if (typeof http !== 'undefined') { // TODO SUPER DIRTY HACK, MAKE BETTER LATER
+    //   urlParts.push(
+    //     relativeUrl
+    //   );
+    //   urlParts[0] = urlParts[0].replace(/^\//,'');
+    // } else {
+    //   urlParts.push(
+    //     this.settings.baseUrl,
+    //     this.settings.apiUrl,
+    //     relativeUrl
+    //   )
+    // }
+
+    urlParts.push(
+      this.settings.baseUrl,
+      this.settings.apiUrl,
+      relativeUrl
+    );
 
     let fullUrl = urlParts.reduce((resultUrl,part,i)=>{
       return Location.joinWithSlash( resultUrl, part);

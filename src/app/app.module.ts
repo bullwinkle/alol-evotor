@@ -32,7 +32,7 @@ import {
 } from '@angular/material';
 
 import {HttpService} from './common/services/http.service';
-import {EvotorBackend} from './common/services/evotor.service';
+// import {EvotorBackend} from './common/services/evotor.service';
 import {LoggerService} from './common/services/logger.service';
 import {AppCommonModule} from './common/common.module';
 import {appRoutes} from './app.router';
@@ -95,11 +95,12 @@ import {HttpFactory} from './common/http.factory';
     HttpService,
     BaseResponseOptions,
     BaseRequestOptions,
-    EvotorBackend,
+    // EvotorBackend,
     AppSettings,
     LoggerService,
     { provide: Http, useFactory: HttpFactory,
-      deps: [XHRBackend, EvotorBackend, BaseRequestOptions, LoggerService],
+      // deps: [XHRBackend, EvotorBackend, BaseRequestOptions, LoggerService],
+      deps: [XHRBackend, BaseRequestOptions, LoggerService],
     },
     { provide: APP_BASE_HREF, useValue: './' }
   ],

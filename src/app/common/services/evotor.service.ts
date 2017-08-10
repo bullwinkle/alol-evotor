@@ -62,96 +62,96 @@ declare const inventory:any;
 
 declare const http:any;
 
-export class EvotorConnection implements Connection {
-  public readyState: ReadyState;
-  public request: Request;
-  public response: any;
-  public http: IEvotorHttp;
-  public logger: IEvotorLoger;
+// export class EvotorConnection implements Connection {
+//   public readyState: ReadyState;
+//   public request: Request;
+//   public response: any;
+//   public http: IEvotorHttp;
+//   public logger: IEvotorLoger;
+//
+//   constructor(request: Request) {
+//     this.http = http;
+//     this.request = request;
+//     this.readyState = ReadyState.Open;
+//     this.response = Observable.create((responseObserver) => {
+//
+//       /**
+//        * Real methods, available for Evotor: just 'get' and 'post'
+//        */
+//       let methodString = (() => {
+//         switch (request.method) {
+//           case RequestMethod.Get:
+//             return 'get';
+//           case RequestMethod.Post:
+//             return 'post';
+//           case RequestMethod.Put:
+//             return 'post';
+//           case RequestMethod.Patch:
+//             return 'post';
+//           case RequestMethod.Delete:
+//             return 'get';
+//           case RequestMethod.Options:
+//             return 'get';
+//           case RequestMethod.Head:
+//             return 'get';
+//         }
+//       })();
+//
+//       let evoResponseBody = (() => {
+//         try {
+//           let res = (()=>{
+//             switch (methodString) {
+//               case "get": return this.http.get(request.url);
+//               case "post": return this.http.post(
+//                 request.url,
+//                 JSON.stringify(request.getBody()),
+//                 JSON.stringify({mediaType:'application/json'})
+//               )
+//             }
+//           })();
+//
+//           if (typeof res === "string") {
+//             res = JSON.parse(res)
+//           }
+//
+//           return res.body || res;
+//
+//         } catch (err) {
+//           return {
+//             error: 'request error ' + err
+//           }
+//         }
+//       })();
+//
+//       let response = new Response({
+//         body: evoResponseBody,
+//         status: 200,
+//         headers: new Headers(),
+//         url: request.url,
+//         merge: (options) => {
+//           return options as ResponseOptions
+//         }
+//       });
+//
+//       if (!evoResponseBody.error) {
+//         responseObserver.next(response);
+//       } else {
+//         responseObserver.error(response);
+//       }
+//
+//       responseObserver.complete();
+//
+//     })
+//   }
+// }
 
-  constructor(request: Request) {
-    this.http = http;
-    this.request = request;
-    this.readyState = ReadyState.Open;
-    this.response = Observable.create((responseObserver) => {
-
-      /**
-       * Real methods, available for Evotor: just 'get' and 'post'
-       */
-      let methodString = (() => {
-        switch (request.method) {
-          case RequestMethod.Get:
-            return 'get';
-          case RequestMethod.Post:
-            return 'post';
-          case RequestMethod.Put:
-            return 'post';
-          case RequestMethod.Patch:
-            return 'post';
-          case RequestMethod.Delete:
-            return 'get';
-          case RequestMethod.Options:
-            return 'get';
-          case RequestMethod.Head:
-            return 'get';
-        }
-      })();
-
-      let evoResponseBody = (() => {
-        try {
-          let res = (()=>{
-            switch (methodString) {
-              case "get": return this.http.get(request.url);
-              case "post": return this.http.post(
-                request.url,
-                JSON.stringify(request.getBody()),
-                JSON.stringify({mediaType:'application/json'})
-              )
-            }
-          })();
-
-          if (typeof res === "string") {
-            res = JSON.parse(res)
-          }
-
-          return res.body || res;
-
-        } catch (err) {
-          return {
-            error: 'request error ' + err
-          }
-        }
-      })();
-
-      let response = new Response({
-        body: evoResponseBody,
-        status: 200,
-        headers: new Headers(),
-        url: request.url,
-        merge: (options) => {
-          return options as ResponseOptions
-        }
-      });
-
-      if (!evoResponseBody.error) {
-        responseObserver.next(response);
-      } else {
-        responseObserver.error(response);
-      }
-
-      responseObserver.complete();
-
-    })
-  }
-}
-
-export class EvotorBackend implements ConnectionBackend {
-
-  createConnection(request: Request): Connection {
-    console.warn('createConnection', request)
-    return new EvotorConnection(request)
-  }
-}
+// export class EvotorBackend implements ConnectionBackend {
+//
+//   createConnection(request: Request): Connection {
+//     console.warn('createConnection', request)
+//     return new EvotorConnection(request)
+//   }
+// }
 
 @Injectable()
 export class EvotorService {
@@ -168,14 +168,16 @@ export class EvotorService {
 
   constructor(public settings: AppSettings,
               public logger: LoggerService) {
-    try {
-      this.http = http;
-      this.receipt = receipt;
-      this.navigation = navigation;
-      this.inventory = inventory;
-    } catch (e) {
-      this.logger.log(LoggerService.LogTypes.error,'EvotorService ' + e.stack)
-    }
+
+    [
+      () => this.http = http,
+      () => this.receipt = receipt,
+      () => this.navigation = navigation,
+      () => this.inventory = inventory
+    ].forEach((tryFn)=>{
+      try {  tryFn(); }
+      catch (e) { this.logger.log(LoggerService.LogTypes.error,'EvotorService: ' + e.message) }
+    });
 
     if (this.settings.debug)
       this.testAlert();

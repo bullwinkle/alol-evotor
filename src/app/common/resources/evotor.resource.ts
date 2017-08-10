@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 const _chain = require('lodash/chain');
 const _mapValues = require('lodash/mapValues');
 const _pick = require('lodash/pick');
-
+const _ = require('lodash');
 import {
   IUser,
   ICompanyDiscrountCard,
@@ -192,7 +192,7 @@ function convert (
     keys:string[]=[],
     converter = (el)=>{return el}
   ):Object {
-  return _chain({})
+  return _.chain({})
     .merge(obj)
     .merge(
       _mapValues(

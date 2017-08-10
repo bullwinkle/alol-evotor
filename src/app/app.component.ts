@@ -52,24 +52,24 @@ export class AppComponent implements OnInit {
     });
 
 
-    setTimeout(()=>{
-
-      try {
-        this.http.get('https://alol.io/rest/2.0/user/644')
-          .subscribe(
-            (res)=>{
-              alert('http ok')
-              alert(res);
-              alert(res.json());
-            },
-            (res)=>{
-              alert('http fuck')
-              alert(res)
-          })
-      } catch (e) {
-        alert('http error ' + e.message)
-      }
-    },2000)
+    // setTimeout(()=>{
+	//
+    //   try {
+    //     this.http.get('https://alol.io/rest/2.0/user/644')
+    //       .subscribe(
+    //         (res)=>{
+    //           alert('http ok')
+    //           alert(res);
+    //           alert(res.json());
+    //         },
+    //         (res)=>{
+    //           alert('http fuck')
+    //           alert(res)
+    //       })
+    //   } catch (e) {
+    //     alert('http error ' + e.message)
+    //   }
+    // },2000)
 
   }
 
