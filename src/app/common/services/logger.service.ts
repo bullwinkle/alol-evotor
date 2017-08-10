@@ -35,7 +35,12 @@ export class LoggerService implements IEvotorLoger {
             case LogTypes.responseError: console.warn(name,data); break;
             default: console.log(name,data); break;
         }},
-        () => 'LoggerService: log failed'
+        function _f () {
+          if (!_f['wasCalled']) {
+            _f['wasCalled'] = true;
+            return 'LoggerService: log failed'
+          }
+        }
       ],
       [
         () => logger.log(name + ': ' + data),
@@ -44,7 +49,10 @@ export class LoggerService implements IEvotorLoger {
     ].forEach(([tryFn,parseError],i)=>{
 
       try { tryFn() }
-      catch (e) { console.log(parseError()) }
+      catch (e) {
+        const message = parseError();
+        message && console.log(message);
+      }
 
     });
 
